@@ -1,405 +1,105 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Jehovah Jireh</title>
-
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
 <style>
 *{margin:0;padding:0;box-sizing:border-box;font-family:'Inter',sans-serif}
 body{background:#fff;color:#111827;line-height:1.6}
 header{text-align:center;padding:60px 20px;border-bottom:1px solid #E5E7EB}
 .logo{width:90px;height:90px;border-radius:50%;object-fit:cover;margin-bottom:15px}
-h1{font-size:42px;color:#047857}
-.subtitle{font-size:18px;color:#4B5563;margin-top:10px}
+h1{font-size:42px;color:#047857}.subtitle{font-size:18px;color:#4B5563;margin-top:10px}
 .psalm{color:#047857;font-weight:600;margin-top:5px}
-.container{max-width:1200px;margin:auto;padding:40px 20px}
-.section-title{font-size:30px;margin-bottom:8px}
-.section-sub{color:#6B7280;margin-bottom:25px}
+.container{max-width:1200px;margin:auto;padding:40px 20px}.section{margin-top:60px}
+.section-title{font-size:30px;margin-bottom:8px}.section-sub{color:#6B7280;margin-bottom:25px}
 .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:22px}
 .card{background:#fff;border:1px solid #E5E7EB;border-radius:16px;overflow:hidden;transition:.25s}
 .card:hover{transform:translateY(-4px);box-shadow:0 10px 20px rgba(0,0,0,.08)}
-.card img{width:100%;height:180px;object-fit:cover}
-.content{padding:18px;text-align:center}
-.content h3{margin-bottom:8px}
+.card img{width:100%;height:180px;object-fit:cover}.content{padding:18px;text-align:center}
 .count{font-size:42px;font-weight:700;color:#047857;margin:15px 0}
 button{padding:12px 18px;background:#047857;color:#fff;border:none;border-radius:10px;font-weight:600;cursor:pointer}
-button:hover{background:#065F46}
-.full-btn{width:100%}
-.section{margin-top:60px}
+button:hover{background:#065F46}.full{width:100%}
 .input-row{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:20px}
 input,textarea{width:100%;padding:12px;border:1px solid #D1D5DB;border-radius:10px;font-size:15px}
 textarea{resize:vertical;min-height:110px}
-.item{display:flex;justify-content:space-between;align-items:center;border:1px solid #E5E7EB;border-radius:12px;padding:14px;margin-bottom:10px}
-.item-text{flex:1;padding-right:10px}
-.icon{background:none;border:none;color:#047857;font-size:18px;padding:4px;cursor:pointer}
-.delete{color:#DC2626}
-.reflection-card{border:1px solid #E5E7EB;border-radius:14px;padding:18px;margin-bottom:16px}
+.item,.reflection-card{border:1px solid #E5E7EB;border-radius:12px;padding:14px;margin-bottom:12px}
+.item{display:flex;justify-content:space-between;align-items:center}.actions{display:flex;gap:8px}
+.icon{background:none;border:none;color:#047857;font-size:18px;padding:4px;cursor:pointer}.delete{color:#DC2626}
 .reflection-date{color:#047857;font-weight:600;margin-bottom:8px}
-.actions{display:flex;gap:8px;justify-content:flex-end;margin-top:10px}
-.pillars{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;margin-top:20px}
+.pillars{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px}
 .pillar{border:1px solid #E5E7EB;border-radius:12px;padding:16px;display:flex;align-items:center;gap:10px}
 .tick{width:28px;height:28px;border-radius:50%;background:#ECFDF5;color:#047857;display:flex;justify-content:center;align-items:center;font-weight:bold}
 .chapel{text-align:center;border:1px solid #E5E7EB;border-radius:16px;padding:40px}
 .enter{display:inline-block;margin-top:20px;padding:14px 28px;background:#047857;color:#fff;text-decoration:none;border-radius:10px;font-weight:600}
 footer{text-align:center;padding:25px;margin-top:60px;border-top:1px solid #E5E7EB;color:#6B7280}
-@media(max-width:768px){h1{font-size:34px}.section-title{font-size:26px}}
 </style>
 </head>
 <body>
-
 <header>
 <img src="images/logo.png" class="logo" alt="Logo">
 <h1>Jehovah Jireh</h1>
 <p class="subtitle">“The Lord is my shepherd, I shall not want.”</p>
 <p class="psalm">Psalm 23:1</p>
 </header>
-
 <div class="container">
-
+<section>
 <h2 class="section-title">Contribute Prayers</h2>
 <p class="section-sub">Offer your prayers in unity with the community.</p>
-
-<div class="grid">
-
-<div class="card">
-<img src="https://images.unsplash.com/photo-1519491050282-cf00c82424b4?auto=format&fit=crop&w=700&q=80">
-<div class="content">
-<h3>Holy Mass</h3>
-<div id="holy_mass" class="count">0</div>
-<button class="full-btn" onclick="increment('holy_mass')">Offer Prayer</button>
-</div>
-</div>
-
-<div class="card">
-<img src="https://images.unsplash.com/photo-1528181304800-259b08848526?auto=format&fit=crop&w=700&q=80">
-<div class="content">
-<h3>Rosary</h3>
-<div id="rosary" class="count">0</div>
-<button class="full-btn" onclick="increment('rosary')">Offer Prayer</button>
-</div>
-</div>
-
-<div class="card">
-<img src="https://images.unsplash.com/photo-1504052434569-70ad5836ab65?auto=format&fit=crop&w=700&q=80">
-<div class="content">
-<h3>Divine Mercy</h3>
-<div id="divine_mercy" class="count">0</div>
-<button class="full-btn" onclick="increment('divine_mercy')">Offer Prayer</button>
-</div>
-</div>
-
-<div class="card">
-<img src="https://images.unsplash.com/photo-1512632578888-169bbbc64f33?auto=format&fit=crop&w=700&q=80">
-<div class="content">
-<h3>Hail Mary</h3>
-<div id="hail_mary" class="count">0</div>
-<button class="full-btn" onclick="increment('hail_mary')">Offer Prayer</button>
-</div>
-</div>
-
-<div class="card">
-<img src="https://images.unsplash.com/photo-1507692049790-de58290a4334?auto=format&fit=crop&w=700&q=80">
-<div class="content">
-<h3>Our Father</h3>
-<div id="our_father" class="count">0</div>
-<button class="full-btn" onclick="increment('our_father')">Offer Prayer</button>
-</div>
-</div>
-
-<div class="card">
-<img src="https://images.unsplash.com/photo-1473177104440-ffee2f376098?auto=format&fit=crop&w=700&q=80">
-<div class="content">
-<h3>Apostles' Creed</h3>
-<div id="apostles_creed" class="count">0</div>
-<button class="full-btn" onclick="increment('apostles_creed')">Offer Prayer</button>
-</div>
-</div>
-
-<div class="card">
-<img src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=700&q=80">
-<div class="content">
-<h3>Adoration</h3>
-<div id="adoration" class="count">0</div>
-<button class="full-btn" onclick="increment('adoration')">Offer Prayer</button>
-</div>
-</div>
-
-</div>
-
-<!-- Prayer Intentions -->
+<div class="grid" id="prayerGrid"></div>
+</section>
 <section class="section">
 <h2 class="section-title">Prayer Intentions</h2>
 <p class="section-sub">Share your intentions and pray for one another.</p>
-
-<div class="input-row">
-<div style="flex:1;min-width:260px">
-<input id="intentionInput" type="text" placeholder="Enter prayer intention...">
-</div>
-<div style="width:120px">
-<button class="full-btn" onclick="saveIntention()">Add</button>
-</div>
-</div>
-
+<div class="input-row"><div style="flex:1"><input id="intentionInput" placeholder="Enter prayer intention..."></div><button onclick="saveIntention()">Add</button></div>
 <div id="intentionsList"></div>
 </section>
-
-<!-- Prayer Reflections -->
 <section class="section">
 <h2 class="section-title">Prayer Reflections</h2>
 <p class="section-sub">Publish a daily reflection with a selected date.</p>
-
-<div class="input-row">
-<div style="flex:1;min-width:220px">
-<input id="reflectionDate" type="date">
-</div>
-</div>
-
-<div style="margin-bottom:15px">
-<textarea id="reflectionText" placeholder="Write today's reflection..."></textarea>
-</div>
-
-<div style="margin-bottom:25px">
+<div class="input-row"><div style="flex:1;min-width:220px"><input id="reflectionDate" type="date"></div></div>
+<div style="margin-bottom:15px"><textarea id="reflectionText" placeholder="Write today's reflection..."></textarea></div>
 <button onclick="saveReflection()">Publish Reflection</button>
-</div>
-
-<div id="reflectionList"></div>
+<div id="reflectionList" style="margin-top:20px"></div>
 </section>
-
-<!-- Spiritual Pillars -->
 <section class="section">
 <h2 class="section-title">The Six Spiritual Pillars</h2>
-
 <div class="pillars">
-<div class="pillar"><div class="tick">✓</div>Prayer</div>
-<div class="pillar"><div class="tick">✓</div>Word of God</div>
-<div class="pillar"><div class="tick">✓</div>Sacraments</div>
-<div class="pillar"><div class="tick">✓</div>Fellowship</div>
-<div class="pillar"><div class="tick">✓</div>Evangelisation</div>
-<div class="pillar"><div class="tick">✓</div>Option for the Poor</div>
+<div class="pillar"><div class="tick">✓</div>Prayer</div><div class="pillar"><div class="tick">✓</div>Word of God</div>
+<div class="pillar"><div class="tick">✓</div>Sacraments</div><div class="pillar"><div class="tick">✓</div>Fellowship</div>
+<div class="pillar"><div class="tick">✓</div>Evangelisation</div><div class="pillar"><div class="tick">✓</div>Option for the Poor</div>
 </div>
 </section>
-
-<!-- Digital Chapel -->
-<section class="section">
-<div class="chapel">
-<h2>Visit Digital Chapel</h2>
-<p style="color:#6B7280;margin-top:10px">
-Enter a dedicated place for adoration, Scripture and fellowship.
-</p>
-<a href="chapel.html" class="enter">Enter</a>
+<section class="section"><div class="chapel"><h2>Visit Digital Chapel</h2><p style="color:#6B7280;margin-top:10px">Enter a dedicated place for adoration, Scripture and fellowship.</p><a href="chapel.html" class="enter">Enter</a></div></section>
 </div>
-</section>
-
-</div>
-
-<footer>
-Jehovah Jireh • Pray Together • Grow Together
-</footer>
-
+<footer>Jehovah Jireh • Pray Together • Grow Together</footer>
 <script>
-const client = supabase.createClient(
-"https://dmvztbtquvhugyctipok.supabase.co",
-"sb_publishable_bw1rR4KOVLtEEs0xrBoMZg_u3ssTmOV"
-);
-
-/* ---------- Prayer Counter ---------- */
-
-async function loadCounts(){
-const {data}=await client.from("prayer_counts").select("*").eq("id",1).single();
-if(!data) return;
-
-Object.keys(data).forEach(key=>{
-const el=document.getElementById(key);
-if(el) el.textContent=data[key];
-});
-}
-
-async function increment(column){
-const {data}=await client.from("prayer_counts").select(column).eq("id",1).single();
-
-await client.from("prayer_counts")
-.update({[column]:data[column]+1})
-.eq("id",1);
-
-loadCounts();
-}
-
-/* ---------- Prayer Intentions ---------- */
-
+const client=supabase.createClient("https://dmvztbtquvhugyctipok.supabase.co","sb_publishable_bw1rR4KOVLtEEs0xrBoMZg_u3ssTmOV");
+const prayers=[
+["holy_mass","Holy Mass","https://images.unsplash.com/photo-1519491050282-cf00c82424b4?auto=format&fit=crop&w=700&q=80"],
+["rosary","Rosary","https://images.unsplash.com/photo-1528181304800-259b08848526?auto=format&fit=crop&w=700&q=80"],
+["divine_mercy","Divine Mercy","https://images.unsplash.com/photo-1504052434569-70ad5836ab65?auto=format&fit=crop&w=700&q=80"],
+["hail_mary","Hail Mary","https://images.unsplash.com/photo-1512632578888-169bbbc64f33?auto=format&fit=crop&w=700&q=80"],
+["our_father","Our Father","https://images.unsplash.com/photo-1507692049790-de58290a4334?auto=format&fit=crop&w=700&q=80"],
+["apostles_creed","Apostles' Creed","https://images.unsplash.com/photo-1473177104440-ffee2f376098?auto=format&fit=crop&w=700&q=80"],
+["adoration","Adoration","https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=700&q=80"]];
+const grid=document.getElementById("prayerGrid");
+prayers.forEach(([k,t,i])=>grid.innerHTML+=`<div class="card"><img src="${i}"><div class="content"><h3>${t}</h3><div id="${k}" class="count">0</div><button class="full" onclick="increment('${k}')">Offer Prayer</button></div></div>`);
+async function loadCounts(){const{data}=await client.from("prayer_counts").select("*").eq("id",1).single();if(!data)return;Object.keys(data).forEach(k=>{const e=document.getElementById(k);if(e)e.textContent=data[k]})}
+async function increment(c){const{data}=await client.from("prayer_counts").select(c).eq("id",1).single();await client.from("prayer_counts").update({[c]:data[c]+1}).eq("id",1);loadCounts()}
 let intentionEdit=null;
-
-async function loadIntentions(){
-
-const {data}=await client
-.from("prayer_intentions")
-.select("*")
-.order("created_at",{ascending:false});
-
-const list=document.getElementById("intentionsList");
-list.innerHTML="";
-
-data.forEach(item=>{
-
-list.innerHTML+=`
-<div class="item">
-
-<div class="item-text">${item.intention}</div>
-
-<div class="actions">
-<button class="icon" onclick="editIntention(${item.id},'${item.intention.replace(/'/g,"\\'")}')">✏️</button>
-<button class="icon delete" onclick="deleteIntention(${item.id})">🗑️</button>
-</div>
-
-</div>`;
-
-});
-
-}
-
-async function saveIntention(){
-
-const input=document.getElementById("intentionInput");
-const text=input.value.trim();
-
-if(text==="") return;
-
-if(intentionEdit){
-
-await client.from("prayer_intentions")
-.update({intention:text})
-.eq("id",intentionEdit);
-
-intentionEdit=null;
-
-}else{
-
-await client.from("prayer_intentions")
-.insert({intention:text});
-
-}
-
-input.value="";
-loadIntentions();
-
-}
-
-function editIntention(id,text){
-intentionEdit=id;
-document.getElementById("intentionInput").value=text;
-}
-
-async function deleteIntention(id){
-
-if(!confirm("Delete this intention?")) return;
-
-await client.from("prayer_intentions")
-.delete()
-.eq("id",id);
-
-loadIntentions();
-
-}
-
-/* ---------- Prayer Reflections ---------- */
-
+async function loadIntentions(){const{data}=await client.from("prayer_intentions").select("*").order("created_at",{ascending:false});const l=document.getElementById("intentionsList");l.innerHTML="";(data||[]).forEach(it=>l.innerHTML+=`<div class="item"><div>${it.intention}</div><div class="actions"><button class="icon" onclick="editIntention(${it.id},'${it.intention.replace(/'/g,"\\'")}')">✏️</button><button class="icon delete" onclick="deleteIntention(${it.id})">🗑️</button></div></div>`)}
+async function saveIntention(){const i=document.getElementById("intentionInput"),t=i.value.trim();if(!t)return;if(intentionEdit){await client.from("prayer_intentions").update({intention:t}).eq("id",intentionEdit);intentionEdit=null}else await client.from("prayer_intentions").insert({intention:t});i.value="";loadIntentions()}
+function editIntention(id,t){intentionEdit=id;document.getElementById("intentionInput").value=t}
+async function deleteIntention(id){if(!confirm("Delete?"))return;await client.from("prayer_intentions").delete().eq("id",id);loadIntentions()}
 let reflectionEdit=null;
-
-async function loadReflections(){
-
-const {data}=await client
-.from("reflections")
-.select("*")
-.order("reflection_date",{ascending:false});
-
-const list=document.getElementById("reflectionList");
-list.innerHTML="";
-
-data.forEach(item=>{
-
-list.innerHTML+=`
-<div class="reflection-card">
-
-<div class="reflection-date">${item.reflection_date}</div>
-
-<div>${item.reflection}</div>
-
-<div class="actions">
-<button class="icon" onclick="editReflection(${item.id},'${item.reflection_date}','${item.reflection.replace(/'/g,"\\'")}')">✏️</button>
-<button class="icon delete" onclick="deleteReflection(${item.id})">🗑️</button>
-</div>
-
-</div>`;
-
-});
-
-}
-
-async function saveReflection(){
-
-const date=document.getElementById("reflectionDate").value;
-const text=document.getElementById("reflectionText").value.trim();
-
-if(date==="" || text==="") return;
-
-if(reflectionEdit){
-
-await client.from("reflections")
-.update({
-reflection:text,
-reflection_date:date
-})
-.eq("id",reflectionEdit);
-
-reflectionEdit=null;
-
-}else{
-
-await client.from("reflections")
-.insert({
-reflection:text,
-reflection_date:date
-});
-
-}
-
-document.getElementById("reflectionDate").value="";
-document.getElementById("reflectionText").value="";
-
-loadReflections();
-
-}
-
-function editReflection(id,date,text){
-
-reflectionEdit=id;
-document.getElementById("reflectionDate").value=date;
-document.getElementById("reflectionText").value=text;
-
-}
-
-async function deleteReflection(id){
-
-if(!confirm("Delete this reflection?")) return;
-
-await client.from("reflections")
-.delete()
-.eq("id",id);
-
-loadReflections();
-
-}
-
-/* ---------- Load ---------- */
-
-loadCounts();
-loadIntentions();
-loadReflections();
+async function loadReflections(){const{data}=await client.from("reflections").select("*").order("reflection_date",{ascending:false});const l=document.getElementById("reflectionList");l.innerHTML="";(data||[]).forEach(r=>l.innerHTML+=`<div class="reflection-card"><div class="reflection-date">${r.reflection_date}</div><div>${r.reflection}</div><div class="actions"><button class="icon" onclick="editReflection(${r.id},'${r.reflection_date}','${r.reflection.replace(/'/g,"\\'")}')">✏️</button><button class="icon delete" onclick="deleteReflection(${r.id})">🗑️</button></div></div>`)}
+async function saveReflection(){const d=document.getElementById("reflectionDate").value,t=document.getElementById("reflectionText").value.trim();if(!d||!t)return;if(reflectionEdit){await client.from("reflections").update({reflection:t,reflection_date:d}).eq("id",reflectionEdit);reflectionEdit=null}else await client.from("reflections").insert({reflection:t,reflection_date:d});document.getElementById("reflectionDate").value="";document.getElementById("reflectionText").value="";loadReflections()}
+function editReflection(id,d,t){reflectionEdit=id;document.getElementById("reflectionDate").value=d;document.getElementById("reflectionText").value=t}
+async function deleteReflection(id){if(!confirm("Delete?"))return;await client.from("reflections").delete().eq("id",id);loadReflections()}
+loadCounts();loadIntentions();loadReflections();
 </script>
-
 </body>
 </html>
