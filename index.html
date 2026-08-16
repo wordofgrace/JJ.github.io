@@ -180,6 +180,37 @@ text-align:center;
 color:#6B7280;
 border-top:1px solid #E5E7EB;
 }
+
+  .intention-item{
+  border:1px solid #E5E7EB;
+  border-radius:12px;
+  padding:16px;
+  margin-bottom:12px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+
+.intention-text{
+  flex:1;
+}
+
+.icon-btn{
+  background:none;
+  border:none;
+  cursor:pointer;
+  font-size:18px;
+  width:auto;
+  padding:6px;
+}
+
+.edit{
+  color:#047857;
+}
+
+.delete{
+  color:#DC2626;
+}
 </style>
 
 </head>
@@ -288,6 +319,31 @@ The Six Spiritual Pillars
 
 </div>
 
+  <!-- Prayer Intentions -->
+<section style="margin-top:60px;">
+
+  <h2 class="section-title">Prayer Intentions</h2>
+  <p class="section-sub">
+    Share your intentions and pray for one another.
+  </p>
+
+  <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:20px;">
+
+    <input
+      id="intentionInput"
+      type="text"
+      placeholder="Enter your prayer intention..."
+      style="flex:1;min-width:250px;padding:12px;border:1px solid #D1D5DB;border-radius:10px;">
+
+    <button onclick="saveIntention()" style="width:120px;">
+      Add
+    </button>
+
+  </div>
+
+  <div id="intentionsList"></div>
+
+</section>
 <div class="chapel">
 
 <h2>Visit Digital Chapel</h2>
@@ -349,6 +405,101 @@ loadCounts();
 
 }
 
+let editingId = null;
+
+async function loadIntentions(){
+
+  const {data,error}=await client
+    .from("prayer_intentions")
+    .select("*")
+    .order("created_at",{ascending:false});
+
+  if(error) return;
+
+  const list=document.getElementById("intentionsList");
+  list.innerHTML="";
+
+  data.forEach(item=>{
+
+    list.innerHTML += `
+      <div class="intention-item">
+
+        <div class="intention-text">
+          ${item.intention}
+        </div>
+
+        <div>
+
+          <button class="icon-btn edit"
+            onclick="editIntention(${item.id},'${item.intention.replace(/'/g,"\\'")}')">
+            ✏
+          </button>
+
+          <button class="icon-btn delete"
+            onclick="deleteIntention(${item.id})">
+            🗑
+          </button>
+
+        </div>
+
+      </div>
+    `;
+
+  });
+
+}
+
+async function saveIntention(){
+
+  const input=document.getElementById("intentionInput");
+  const text=input.value.trim();
+
+  if(text==="") return;
+
+  if(editingId){
+
+    await client
+      .from("prayer_intentions")
+      .update({intention:text})
+      .eq("id",editingId);
+
+    editingId=null;
+
+  }else{
+
+    await client
+      .from("prayer_intentions")
+      .insert({intention:text});
+
+  }
+
+  input.value="";
+  loadIntentions();
+
+}
+
+function editIntention(id,text){
+
+  editingId=id;
+  document.getElementById("intentionInput").value=text;
+
+}
+
+async function deleteIntention(id){
+
+  if(!confirm("Delete this intention?")) return;
+
+  await client
+    .from("prayer_intentions")
+    .delete()
+    .eq("id",id);
+
+  loadIntentions();
+
+}
+
+loadIntentions();
+  
 loadCounts();
 </script>
 
