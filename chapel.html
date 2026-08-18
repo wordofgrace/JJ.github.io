@@ -7,6 +7,11 @@
       <div class="card">
         <h2>📖 Word of God</h2><p>Daily Scripture reflections and Gospel sharing.</p><br>
         <a class="btn" href="https://www.facebook.com" target="_blank">
-          Open Word of God</a></div><div class="card"><h2>✝️ Confession Guide</h2><ol><li>Examine your conscience.</li><li>Be sincerely sorry for your sins.</li><li>Confess all mortal sins honestly.</li>
-            <li>Receive absolution from the priest.</li><li>Complete your assigned penance.</li></ol></div><div class="card">
+          Open Word of God</a></div><div class="card"><h2>✝️ Confession Guide</h2>
+            <ol><li>Examine your conscience.</li>
+              <li>Be sincerely sorry for your sins.</li>
+              <li>Confess all mortal sins honestly.</li>
+            <li>Receive absolution from the priest.</li>
+              <li>Complete your assigned penance.</li>
+            </ol></div><div class="card">
               <h2>🤝 Fellowship</h2><p>Add friends to pray together.</p><br><div style="display:flex;gap:10px"><div style="flex:1"><input id="nameInput" placeholder="Friend's name"></div><button onclick="saveFriend()">Add</button></div><div id="friends" style="margin-top:18px"></div></div></div><script>const client=supabase.createClient("https://dmvztbtquvhugyctipok.supabase.co","sb_publishable_bw1rR4KOVLtEEs0xrBoMZg_u3ssTmOV");let editId=null;async function loadFriends(){const{data}=await client.from("fellowship").select("*").order("created_at",{ascending:false});const box=document.getElementById("friends");box.innerHTML="";(data||[]).forEach(f=>box.innerHTML+=`<div class=item><span>${f.name}</span><div class=actions><button onclick="editFriend(${f.id},'${f.name.replace(/'/g,"\\'")}')">✏️</button><button class=del onclick="deleteFriend(${f.id})">🗑️</button></div></div>`)}async function saveFriend(){const i=document.getElementById("nameInput"),n=i.value.trim();if(!n)return;if(editId){await client.from("fellowship").update({name:n}).eq("id",editId);editId=null}else await client.from("fellowship").insert({name:n});i.value="";loadFriends()}function editFriend(id,n){editId=id;document.getElementById("nameInput").value=n}async function deleteFriend(id){if(!confirm("Delete friend?"))return;await client.from("fellowship").delete().eq("id",id);loadFriends()}loadFriends();</script></body></html>
