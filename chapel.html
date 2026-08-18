@@ -1,17 +1,228 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"> 
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="icon" type="image/jpeg" href="./images/favicon.jpg">    
-  <title>Digital Chapel</title><link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet"><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><style>*{margin:0;padding:0;box-sizing:border-box;font-family:Inter,sans-serif}body{background:#fff;color:#111827}header{padding:32px 20px;border-bottom:1px solid #E5E7EB;display:flex;justify-content:space-between;align-items:center}.back{color:#047857;text-decoration:none;font-weight:600}.container{max-width:900px;margin:auto;padding:32px 20px}.card{border:1px solid #E5E7EB;border-radius:16px;padding:22px;margin-bottom:22px}h1{color:#047857}h2{margin-bottom:10px}a.btn,button{display:inline-block;background:#047857;color:#fff;text-decoration:none;border:none;border-radius:10px;padding:12px 18px;font-weight:600;cursor:pointer}input{width:100%;padding:12px;border:1px solid #D1D5DB;border-radius:10px}ol{padding-left:22px}.item{display:flex;justify-content:space-between;align-items:center;border-top:1px solid #F3F4F6;padding:12px 0}.actions button{background:none;color:#047857;padding:4px}.del{color:#DC2626}</style></head><body><header><a href="index.html" class="back">← Home</a>
-    <h1>Digital Chapel</h1><div></div></header><div class="container"><div class="card">
-      <h2>🙏 Eucharistic Adoration</h2><p>Spend time before the Lord through perpetual adoration.</p><br><a class="btn" href="https://www.youtube.com" target="_blank">Open Adoration</a></div>
-      <div class="card">
-        <h2>📖 Word of God</h2><p>Daily Scripture reflections and Gospel sharing.</p><br>
-        <a class="btn" href="https://www.facebook.com" target="_blank">
-          Open Word of God</a></div><div class="card"><h2>✝️ Confession Guide</h2>
-            <ol><li>Examine your conscience.</li>
-              <li>Be sincerely sorry for your sins.</li>
-              <li>Confess all mortal sins honestly.</li>
-            <li>Receive absolution from the priest.</li>
-              <li>Complete your assigned penance.</li>
-            </ol></div><div class="card">
-              <h2>🤝 Fellowship</h2><p>Add friends to pray together.</p><br><div style="display:flex;gap:10px"><div style="flex:1"><input id="nameInput" placeholder="Friend's name"></div><button onclick="saveFriend()">Add</button></div><div id="friends" style="margin-top:18px"></div></div></div><script>const client=supabase.createClient("https://dmvztbtquvhugyctipok.supabase.co","sb_publishable_bw1rR4KOVLtEEs0xrBoMZg_u3ssTmOV");let editId=null;async function loadFriends(){const{data}=await client.from("fellowship").select("*").order("created_at",{ascending:false});const box=document.getElementById("friends");box.innerHTML="";(data||[]).forEach(f=>box.innerHTML+=`<div class=item><span>${f.name}</span><div class=actions><button onclick="editFriend(${f.id},'${f.name.replace(/'/g,"\\'")}')">✏️</button><button class=del onclick="deleteFriend(${f.id})">🗑️</button></div></div>`)}async function saveFriend(){const i=document.getElementById("nameInput"),n=i.value.trim();if(!n)return;if(editId){await client.from("fellowship").update({name:n}).eq("id",editId);editId=null}else await client.from("fellowship").insert({name:n});i.value="";loadFriends()}function editFriend(id,n){editId=id;document.getElementById("nameInput").value=n}async function deleteFriend(id){if(!confirm("Delete friend?"))return;await client.from("fellowship").delete().eq("id",id);loadFriends()}loadFriends();</script></body></html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/jpeg" href="./images/favicon.jpg">
+<title>Digital Chapel</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Cormorant+Garamond:wght@500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:Inter,sans-serif}
+body{background:#fff;color:#111827}
+
+/* ===== Header ===== */
+header{
+  position:relative;
+  padding:22px 24px;
+  border-bottom:1px solid #e5e7eb;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  background:linear-gradient(180deg,#f8fdfb 0%,#ffffff 100%);
+}
+header::before{
+  content:"";
+  position:absolute;
+  top:0;left:0;right:0;
+  height:4px;
+  background:linear-gradient(90deg,#047857,#10b981,#047857);
+}
+.back{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  color:#047857;
+  text-decoration:none;
+  font-weight:600;
+  font-size:14.5px;
+  padding:9px 16px 9px 12px;
+  border:1.5px solid #a7f3d0;
+  background:#ecfdf5;
+  border-radius:999px;
+  transition:background .18s ease,transform .12s ease,box-shadow .18s ease;
+}
+.back:hover{background:#d1fae5;box-shadow:0 4px 14px -4px rgba(4,120,87,0.35)}
+.back:active{transform:scale(0.97)}
+.back svg{width:18px;height:18px;flex-shrink:0}
+.page-title{
+  font-family:'Cormorant Garamond',serif;
+  color:#065f46;
+  font-size:26px;
+  font-weight:700;
+  text-align:center;
+  flex:1;
+}
+.header-spacer{width:96px}
+
+/* ===== Layout ===== */
+.container{max-width:900px;margin:auto;padding:40px 20px 60px}
+.card{
+  border:1px solid #e5e7eb;
+  border-radius:16px;
+  padding:26px;
+  margin-bottom:22px;
+  background:#fff;
+  transition:box-shadow .2s ease,transform .2s ease;
+}
+.card:hover{box-shadow:0 12px 28px -12px rgba(4,120,87,0.18);transform:translateY(-2px)}
+.card h2{
+  color:#065f46;
+  font-size:20px;
+  margin-bottom:10px;
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
+.card p{color:#4b5563;line-height:1.6;margin-bottom:16px}
+
+a.btn,button{
+  display:inline-block;
+  background:#047857;
+  color:#fff;
+  text-decoration:none;
+  border:none;
+  border-radius:10px;
+  padding:12px 20px;
+  font-weight:600;
+  font-size:14.5px;
+  cursor:pointer;
+  transition:background .18s ease,transform .12s ease;
+}
+a.btn:hover,button:hover{background:#065f46}
+button:active,a.btn:active{transform:scale(0.98)}
+
+input{
+  width:100%;
+  padding:13px 15px;
+  border:1.5px solid #d1d5db;
+  border-radius:10px;
+  font-family:Inter,sans-serif;
+  font-size:15px;
+  color:#111827;
+  background:#fff;
+  transition:border-color .18s ease,box-shadow .18s ease;
+}
+input::placeholder{color:#9ca3af}
+input:focus{
+  outline:none;
+  border-color:#047857;
+  box-shadow:0 0 0 3px rgba(4,120,87,0.15);
+}
+
+ol{padding-left:22px;color:#374151;line-height:1.9}
+ol li{padding-left:4px}
+
+.item{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:10px;
+  flex-wrap:wrap;
+  border-top:1px solid #f3f4f6;
+  padding:13px 0;
+}
+.actions{display:flex;gap:6px;flex-shrink:0}
+.actions button{background:none;color:#047857;padding:6px;border-radius:8px;font-size:15px}
+.actions button:hover{background:#ecfdf5}
+.del{color:#dc2626 !important}
+.del:hover{background:#fef2f2 !important}
+
+.add-row{display:flex;gap:10px;flex-wrap:wrap}
+.add-row > div{flex:1;min-width:180px}
+
+/* ===== Responsive ===== */
+@media(max-width:640px){
+  header{padding:16px}
+  .back{font-size:0;padding:10px;gap:0}
+  .back svg{width:19px;height:19px}
+  .page-title{font-size:20px}
+  .header-spacer{width:38px}
+  .container{padding:28px 16px 44px}
+  .card{padding:20px}
+  .card h2{font-size:18px}
+  .add-row{flex-direction:column}
+  .add-row > div{min-width:0}
+  .add-row button{width:100%}
+}
+
+@media(max-width:400px){
+  .page-title{font-size:17px}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <a href="index.html" class="back" aria-label="Back to home">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11.5 12 4l9 7.5"/><path d="M5.5 10v9a1 1 0 0 0 1 1H10v-6h4v6h3.5a1 1 0 0 0 1-1v-9"/></svg>
+    <span>Home</span>
+  </a>
+  <h1 class="page-title">Digital Chapel</h1>
+  <div class="header-spacer"></div>
+</header>
+
+<div class="container">
+
+  <div class="card">
+    <h2>🙏 Eucharistic Adoration</h2>
+    <p>Spend time before the Lord through perpetual adoration.</p>
+    <a class="btn" href="https://www.youtube.com" target="_blank">Open Adoration</a>
+  </div>
+
+  <div class="card">
+    <h2>📖 Word of God</h2>
+    <p>Daily Scripture reflections and Gospel sharing.</p>
+    <a class="btn" href="https://www.facebook.com" target="_blank">Open Word of God</a>
+  </div>
+
+  <div class="card">
+    <h2>✝️ Confession Guide</h2>
+    <ol>
+      <li>Examine your conscience.</li>
+      <li>Be sincerely sorry for your sins.</li>
+      <li>Confess all mortal sins honestly.</li>
+      <li>Receive absolution from the priest.</li>
+      <li>Complete your assigned penance.</li>
+    </ol>
+  </div>
+
+  <div class="card">
+    <h2>🤝 Fellowship</h2>
+    <p>Add friends to pray together.</p>
+    <div class="add-row">
+      <div><input id="nameInput" placeholder="Friend's name"></div>
+      <button onclick="saveFriend()">Add</button>
+    </div>
+    <div id="friends" style="margin-top:12px"></div>
+  </div>
+
+</div>
+
+<script>
+const client=supabase.createClient("https://dmvztbtquvhugyctipok.supabase.co","sb_publishable_bw1rR4KOVLtEEs0xrBoMZg_u3ssTmOV");
+let editId=null;
+async function loadFriends(){
+  const{data}=await client.from("fellowship").select("*").order("created_at",{ascending:false});
+  const box=document.getElementById("friends");
+  box.innerHTML="";
+  (data||[]).forEach(f=>box.innerHTML+=`<div class=item><span>${f.name}</span><div class=actions><button onclick="editFriend(${f.id},'${f.name.replace(/'/g,"\\'")}')">✏️</button><button class=del onclick="deleteFriend(${f.id})">🗑️</button></div></div>`);
+}
+async function saveFriend(){
+  const i=document.getElementById("nameInput"),n=i.value.trim();
+  if(!n)return;
+  if(editId){await client.from("fellowship").update({name:n}).eq("id",editId);editId=null;}
+  else await client.from("fellowship").insert({name:n});
+  i.value="";
+  loadFriends();
+}
+function editFriend(id,n){editId=id;document.getElementById("nameInput").value=n;}
+async function deleteFriend(id){
+  if(!confirm("Delete friend?"))return;
+  await client.from("fellowship").delete().eq("id",id);
+  loadFriends();
+}
+loadFriends();
+</script>
+</body>
+</html>
