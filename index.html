@@ -257,11 +257,73 @@ function editIntention(id,t){editI=id;document.getElementById("intentionInput").
 async function saveIntention(){const t=document.getElementById("intentionInput").value.trim();if(!t)return;if(editI){await client.from("prayer_intentions").update({intention:t}).eq("id",editI);editI=null;}else await client.from("prayer_intentions").insert({intention:t});document.getElementById("intentionInput").value="";loadIntentions();}
 async function deleteIntention(id){await client.from("prayer_intentions").delete().eq("id",id);loadIntentions();}
 let editR=null;
-async function loadReflections(){const{data}=await client.from("reflections").select("*").order("reflection_date",{ascending:false});const box=document.getElementById("reflections");box.innerHTML="";(data||[]).forEach(r=>box.innerHTML+=`<div class=reflection><div style="color:#047857;font-weight:600">${r.reflection_date}</div><p>${r.reflection}</p><div class=actions><button class=icon onclick="editReflection(${r.id},'${r.reflection_date}','${r.reflection.replace(/'/g,"\\'")}')">✏️</button><button class="icon del" onclick="deleteReflection(${r.id})">🗑️</button></div></div>`);}
-function editReflection(id,d,t){editR=id;document.getElementById("rDate").value=d;document.getElementById("rText").value=t;}
-async function saveReflection(){const d=document.getElementById("rDate").value,t=document.getElementById("rText").value.trim();if(!d||!t)return;if(editR){await client.from("reflections").update({reflection:t,reflection_date:d}).eq("id",editR);editR=null;}else await client.from("reflections").insert({reflection:t,reflection_date:d});document.getElementById("rDate").value="";document.getElementById("rText").value="";loadReflections();}
-async function deleteReflection(id){await client.from("reflections").delete().eq("id",id);loadReflections();}
-loadCounts();loadIntentions();loadReflections();
+async function loadReflections(){
+  const {data} = await client
+    .from("reflections")
+    .select("*")
+    .order("reflection_date",{ascending:false});
+
+  const box = document.getElementById("reflections");
+  box.innerHTML = "";
+
+  (data || []).forEach(r => {
+    const [year, month, day] = r.reflection_date.split("-");
+    const formattedDate = `${day}-${month}-${year}`;
+
+    box.innerHTML += `
+      <div class="reflection">
+        <div style="color:#047857;font-weight:600">${formattedDate}</div>
+        <p>${r.reflection}</p>
+        <div class="actions">
+          <button class="icon" onclick="editReflection(${r.id},'${r.reflection_date}','${r.reflection.replace(/'/g,"\\'")}')">✏️</button>
+          <button class="icon del" onclick="deleteReflection(${r.id})">🗑️</button>
+        </div>
+      </div>`;
+  });
+}
+
+function editReflection(id,d,t){
+  editR=id;
+  document.getElementById("rDate").value=d;
+  document.getElementById("rText").value=t;
+}
+
+async function saveReflection(){
+  const d=document.getElementById("rDate").value;
+  const t=document.getElementById("rText").value.trim();
+
+  if(!d||!t)return;
+
+  if(editR){
+    await client
+      .from("reflections")
+      .update({reflection:t,reflection_date:d})
+      .eq("id",editR);
+
+    editR=null;
+  }else{
+    await client
+      .from("reflections")
+      .insert({reflection:t,reflection_date:d});
+  }
+
+  document.getElementById("rDate").value="";
+  document.getElementById("rText").value="";
+  loadReflections();
+}
+
+async function deleteReflection(id){
+  await client
+    .from("reflections")
+    .delete()
+    .eq("id",id);
+
+  loadReflections();
+}
+
+loadCounts();
+loadIntentions();
+loadReflections();
 </script>
 </body>
 </html>
