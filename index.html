@@ -248,7 +248,7 @@ footer{text-align:center;padding:24px;color:#6b7280;margin-top:60px;font-size:14
 const client=supabase.createClient("https://dmvztbtquvhugyctipok.supabase.co","sb_publishable_bw1rR4KOVLtEEs0xrBoMZg_u3ssTmOV");
 const prayers=[["holy_mass","Holy Mass","mass.jpg"],["rosary","Rosary","rosary.jpg"],["divine_mercy","Divine Mercy","divine.jpg"],["hail_mary","Hail Mary","mary.jpg"],["our_father","Our Father","trinity.jpg"],["apostles_creed","Apostles' Creed","pentecost.jpg"],["adoration","Adoration","adoration.jpg"]];
 const grid=document.getElementById("cards");
-prayers.forEach(([k,t,i])=>grid.innerHTML+=`<div class="card"><img src="./images/${i}"><div class="content"><h3>${t}</h3><div id="${k}" class="count">0</div><button class="full" onclick="increment('${k}')">Offer Prayer</button></div></div>`);
+prayers.forEach(([k,t,i])=>grid.innerHTML+=`<div class="card"><img src="./images/${i}"><div class="content"><h3>${t}</h3><div id="${k}" class="count">0</div><button class="full" onclick="increment('${k}')">Add</button></div></div>`);
 async function loadCounts(){const{data}=await client.from("prayer_counts").select("*").eq("id",1).single();if(!data)return;for(const k in data){const e=document.getElementById(k);if(e)e.textContent=data[k];}}
 async function increment(c){const{data}=await client.from("prayer_counts").select(c).eq("id",1).single();await client.from("prayer_counts").update({[c]:data[c]+1}).eq("id",1);loadCounts();}
 let editI=null;
