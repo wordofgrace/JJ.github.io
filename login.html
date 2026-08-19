@@ -31,8 +31,6 @@ body{
   padding:20px;
 }
 
-/* ===== Login Container ===== */
-
 .login-container{
   width:100%;
   max-width:420px;
@@ -46,8 +44,6 @@ body{
   text-align:center;
   box-shadow:0 15px 40px rgba(140,86,212,0.18);
 }
-
-/* ===== Logo ===== */
 
 .logo-wrap{
   width:120px;
@@ -68,8 +64,6 @@ body{
   border:3px solid #FFF4BF;
 }
 
-/* ===== Heading ===== */
-
 h1{
   font-family:'Cormorant Garamond',serif;
   font-size:44px;
@@ -84,8 +78,6 @@ h1{
   font-size:14px;
   margin-bottom:28px;
 }
-
-/* ===== Inputs ===== */
 
 .input-group{
   text-align:left;
@@ -121,8 +113,6 @@ input:focus{
   box-shadow:0 0 0 3px rgba(140,86,212,.15);
 }
 
-/* ===== Login Button ===== */
-
 .login-btn{
   width:100%;
   margin-top:8px;
@@ -151,8 +141,6 @@ input:focus{
   cursor:not-allowed;
 }
 
-/* ===== Error ===== */
-
 .error{
   display:none;
   margin-top:15px;
@@ -163,8 +151,6 @@ input:focus{
   font-size:13px;
   font-weight:500;
 }
-
-/* ===== Footer ===== */
 
 .footer{
   margin-top:22px;
@@ -183,7 +169,11 @@ input:focus{
   <div class="login-card">
 
     <div class="logo-wrap">
-      <img src="./images/logo.png" class="logo" alt="Jehovah Jireh">
+      <img
+        src="./images/logo.png"
+        class="logo"
+        alt="Jehovah Jireh"
+      >
     </div>
 
     <h1>Jehovah Jireh</h1>
@@ -195,7 +185,10 @@ input:focus{
     <form id="loginForm">
 
       <div class="input-group">
-        <label for="username">Username</label>
+
+        <label for="username">
+          Username
+        </label>
 
         <input
           type="text"
@@ -204,10 +197,15 @@ input:focus{
           autocomplete="username"
           required
         >
+
       </div>
 
+
       <div class="input-group">
-        <label for="password">Password</label>
+
+        <label for="password">
+          Password
+        </label>
 
         <input
           type="password"
@@ -216,14 +214,19 @@ input:focus{
           autocomplete="current-password"
           required
         >
+
       </div>
+
 
       <button
         type="submit"
         class="login-btn"
         id="loginButton">
+
         Sign In
+
       </button>
+
 
       <div
         class="error"
@@ -231,6 +234,7 @@ input:focus{
       </div>
 
     </form>
+
 
     <div class="footer">
       Prayer Community
@@ -250,10 +254,8 @@ input:focus{
 const SUPABASE_URL =
   "https://dmvztbtquvhugyctipok.supabase.co";
 
-
 const SUPABASE_KEY =
   "sb_publishable_bw1rR4KOVLtEEs0xrBoMZg_u3ssTmOV";
-
 
 const client =
   supabase.createClient(
@@ -263,21 +265,23 @@ const client =
 
 
 /* =========================================
-   LOGIN USERNAME
+   LOGIN DETAILS
    ========================================= */
 
-const USERNAME = "childrenofgod";
-
-
-/*
-   IMPORTANT:
-
-   This must be the SAME EMAIL you used
-   when creating the Supabase user.
-*/
+const USERNAME =
+  "childrenofgod";
 
 const SUPABASE_EMAIL =
   "cog@jj.com";
+
+
+/* =========================================
+   SESSION DURATION
+   3 MINUTES
+   ========================================= */
+
+const SESSION_DURATION =
+  3 * 60 * 1000;
 
 
 /* =========================================
@@ -325,24 +329,37 @@ document
 
 
     button.disabled = true;
-    button.textContent = "Signing in...";
+
+    button.textContent =
+      "Signing in...";
 
 
-    /* Supabase authentication */
+    /* =========================================
+       SUPABASE AUTHENTICATION
+       ========================================= */
 
     const { data, error: loginError } =
       await client.auth.signInWithPassword({
 
-        email: SUPABASE_EMAIL,
+        email:
+          SUPABASE_EMAIL,
 
-        password: password
+        password:
+          password
 
       });
 
 
-    /* Login failed */
+    /* =========================================
+       LOGIN FAILED
+       ========================================= */
 
     if(loginError){
+
+      console.error(
+        "Supabase login error:",
+        loginError
+      );
 
       error.textContent =
         "Incorrect username or password.";
@@ -350,32 +367,31 @@ document
       error.style.display = "block";
 
       button.disabled = false;
-      button.textContent = "Sign In";
+
+      button.textContent =
+        "Sign In";
 
       return;
     }
 
 
-    /* Login successful */
+    /* =========================================
+       START 3-MINUTE SESSION
+       ========================================= */
 
-    window.location.href =
-      "index.html";
+    sessionStorage.setItem(
+      "jj_login_time",
+      Date.now().toString()
+    );
 
-});
 
+    /* =========================================
+       GO TO MAIN WEBSITE
+       ========================================= */
 
-/* =========================================
-   CHECK EXISTING SESSION
-   ========================================= */
-
-client.auth.getSession().then(({ data }) => {
-
-  if(data.session){
-
-    window.location.href =
-      "index.html";
-
-  }
+    window.location.replace(
+      "index.html"
+    );
 
 });
 
