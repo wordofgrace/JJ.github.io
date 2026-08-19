@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<link rel="icon" type="image/jpeg" href="./images/favicon.jpg">
+
+<title>Login • Jehovah Jireh</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Cormorant+Garamond:wght@500;600;700&display=swap" rel="stylesheet">
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<style>
+
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:Inter,sans-serif;
+}
+
+body{
+  min-height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:#FFF4BF;
+  color:#8C56D4;
+  padding:20px;
+}
+
+/* ===== Login Container ===== */
+
+.login-container{
+  width:100%;
+  max-width:420px;
+}
+
+.login-card{
+  background:#FFF4BF;
+  border:1px solid #DC95FF;
+  border-radius:22px;
+  padding:40px 34px;
+  text-align:center;
+  box-shadow:0 15px 40px rgba(140,86,212,0.18);
+}
+
+/* ===== Logo ===== */
+
+.logo-wrap{
+  width:120px;
+  height:120px;
+  margin:0 auto 22px;
+  border-radius:50%;
+  padding:5px;
+  background:linear-gradient(135deg,#8C56D4,#DC95FF);
+  box-shadow:0 10px 30px -8px rgba(140,86,212,0.45);
+}
+
+.logo{
+  width:100%;
+  height:100%;
+  border-radius:50%;
+  object-fit:cover;
+  display:block;
+  border:3px solid #FFF4BF;
+}
+
+/* ===== Heading ===== */
+
+h1{
+  font-family:'Cormorant Garamond',serif;
+  font-size:44px;
+  color:#8C56D4;
+  margin-bottom:6px;
+  font-weight:700;
+}
+
+.subtitle{
+  color:#8C56D4;
+  opacity:.75;
+  font-size:14px;
+  margin-bottom:28px;
+}
+
+/* ===== Inputs ===== */
+
+.input-group{
+  text-align:left;
+  margin-bottom:16px;
+}
+
+label{
+  display:block;
+  font-size:13px;
+  font-weight:600;
+  color:#8C56D4;
+  margin-bottom:7px;
+}
+
+input{
+  width:100%;
+  padding:14px 15px;
+  border:1.5px solid #DC95FF;
+  border-radius:11px;
+  background:#FFF4BF;
+  color:#8C56D4;
+  font-size:15px;
+}
+
+input::placeholder{
+  color:#8C56D4;
+  opacity:.45;
+}
+
+input:focus{
+  outline:none;
+  border-color:#8C56D4;
+  box-shadow:0 0 0 3px rgba(140,86,212,.15);
+}
+
+/* ===== Login Button ===== */
+
+.login-btn{
+  width:100%;
+  margin-top:8px;
+  padding:14px;
+  border:none;
+  border-radius:11px;
+  background:#8C56D4;
+  color:#FFF4BF;
+  font-size:15px;
+  font-weight:600;
+  cursor:pointer;
+  transition:.2s ease;
+}
+
+.login-btn:hover{
+  background:#DC95FF;
+  color:#8C56D4;
+}
+
+.login-btn:active{
+  transform:scale(.98);
+}
+
+.login-btn:disabled{
+  opacity:.6;
+  cursor:not-allowed;
+}
+
+/* ===== Error ===== */
+
+.error{
+  display:none;
+  margin-top:15px;
+  padding:10px;
+  border-radius:9px;
+  background:#FFBEFB;
+  color:#8C56D4;
+  font-size:13px;
+  font-weight:500;
+}
+
+/* ===== Footer ===== */
+
+.footer{
+  margin-top:22px;
+  font-size:12px;
+  color:#8C56D4;
+  opacity:.65;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="login-container">
+
+  <div class="login-card">
+
+    <div class="logo-wrap">
+      <img src="./images/logo.png" class="logo" alt="Jehovah Jireh">
+    </div>
+
+    <h1>Jehovah Jireh</h1>
+
+    <p class="subtitle">
+      United in Prayer • Growing in Christ
+    </p>
+
+    <form id="loginForm">
+
+      <div class="input-group">
+        <label for="username">Username</label>
+
+        <input
+          type="text"
+          id="username"
+          placeholder="Enter username"
+          autocomplete="username"
+          required
+        >
+      </div>
+
+      <div class="input-group">
+        <label for="password">Password</label>
+
+        <input
+          type="password"
+          id="password"
+          placeholder="Enter password"
+          autocomplete="current-password"
+          required
+        >
+      </div>
+
+      <button
+        type="submit"
+        class="login-btn"
+        id="loginButton">
+        Sign In
+      </button>
+
+      <div
+        class="error"
+        id="errorMessage">
+      </div>
+
+    </form>
+
+    <div class="footer">
+      Prayer Community
+    </div>
+
+  </div>
+
+</div>
+
+
+<script>
+
+/* =========================================
+   SUPABASE CONFIGURATION
+   ========================================= */
+
+const SUPABASE_URL =
+  "https://dmvztbtquvhugyctipok.supabase.co";
+
+
+const SUPABASE_KEY =
+  "sb_publishable_bw1rR4KOVLtEEs0xrBoMZg_u3ssTmOV";
+
+
+const client =
+  supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY
+  );
+
+
+/* =========================================
+   LOGIN USERNAME
+   ========================================= */
+
+const USERNAME = "childrenofgod";
+
+
+/*
+   IMPORTANT:
+
+   This must be the SAME EMAIL you used
+   when creating the Supabase user.
+*/
+
+const SUPABASE_EMAIL =
+  "cog@jj.com";
+
+
+/* =========================================
+   LOGIN
+   ========================================= */
+
+document
+  .getElementById("loginForm")
+  .addEventListener("submit", async function(event){
+
+    event.preventDefault();
+
+    const username =
+      document
+        .getElementById("username")
+        .value
+        .trim();
+
+    const password =
+      document
+        .getElementById("password")
+        .value;
+
+    const button =
+      document.getElementById("loginButton");
+
+    const error =
+      document.getElementById("errorMessage");
+
+
+    error.style.display = "none";
+
+
+    /* Check username */
+
+    if(username !== USERNAME){
+
+      error.textContent =
+        "Incorrect username or password.";
+
+      error.style.display = "block";
+
+      return;
+    }
+
+
+    button.disabled = true;
+    button.textContent = "Signing in...";
+
+
+    /* Supabase authentication */
+
+    const { data, error: loginError } =
+      await client.auth.signInWithPassword({
+
+        email: SUPABASE_EMAIL,
+
+        password: password
+
+      });
+
+
+    /* Login failed */
+
+    if(loginError){
+
+      error.textContent =
+        "Incorrect username or password.";
+
+      error.style.display = "block";
+
+      button.disabled = false;
+      button.textContent = "Sign In";
+
+      return;
+    }
+
+
+    /* Login successful */
+
+    window.location.href =
+      "index.html";
+
+});
+
+
+/* =========================================
+   CHECK EXISTING SESSION
+   ========================================= */
+
+client.auth.getSession().then(({ data }) => {
+
+  if(data.session){
+
+    window.location.href =
+      "index.html";
+
+  }
+
+});
+
+</script>
+
+</body>
+</html>
