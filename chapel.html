@@ -9,45 +9,45 @@
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
 *{margin:0;padding:0;box-sizing:border-box;font-family:Inter,sans-serif}
-body{background:#fff;color:#111827}
+body{background:#FEFAF6;color:#102C57}
 
 /* ===== Header ===== */
 header{
   position:relative;
   padding:22px 24px;
-  border-bottom:1px solid #e5e7eb;
+  border-bottom:1px solid #DAC0A3;
   display:flex;
   justify-content:space-between;
   align-items:center;
-  background:linear-gradient(180deg,#f8fdfb 0%,#ffffff 100%);
+  background:linear-gradient(180deg,#EADBC8 0%,#FEFAF6 100%);
 }
 header::before{
   content:"";
   position:absolute;
   top:0;left:0;right:0;
   height:4px;
-  background:linear-gradient(90deg,#047857,#10b981,#047857);
+  background:linear-gradient(90deg,#102C57,#DAC0A3,#102C57);
 }
 .back{
   display:inline-flex;
   align-items:center;
   gap:8px;
-  color:#047857;
+  color:#102C57;
   text-decoration:none;
   font-weight:600;
   font-size:14.5px;
   padding:9px 16px 9px 12px;
-  border:1.5px solid #a7f3d0;
-  background:#ecfdf5;
+  border:1.5px solid #102C57;
+  background:#FEFAF6;
   border-radius:999px;
   transition:background .18s ease,transform .12s ease,box-shadow .18s ease;
 }
-.back:hover{background:#d1fae5;box-shadow:0 4px 14px -4px rgba(4,120,87,0.35)}
+.back:hover{background:#EADBC8;box-shadow:0 4px 14px -4px rgba(16,44,87,0.35)}
 .back:active{transform:scale(0.97)}
 .back svg{width:18px;height:18px;flex-shrink:0}
 .page-title{
-  font-family:'Cormorant Garamond',serif;
-  color:#065f46;
+  font-family:Calibri,'Trebuchet MS',sans-serif;
+  color:#102C57;
   font-size:26px;
   font-weight:700;
   text-align:center;
@@ -58,28 +58,28 @@ header::before{
 /* ===== Layout ===== */
 .container{max-width:900px;margin:auto;padding:40px 20px 60px}
 .card{
-  border:1px solid #e5e7eb;
+  border:1px solid #DAC0A3;
   border-radius:16px;
   padding:26px;
   margin-bottom:22px;
-  background:#fff;
+  background:#FEFAF6;
   transition:box-shadow .2s ease,transform .2s ease;
 }
-.card:hover{box-shadow:0 12px 28px -12px rgba(4,120,87,0.18);transform:translateY(-2px)}
+.card:hover{box-shadow:0 12px 28px -12px rgba(16,44,87,0.25);transform:translateY(-2px)}
 .card h2{
-  color:#065f46;
+  color:#102C57;
   font-size:20px;
   margin-bottom:10px;
   display:flex;
   align-items:center;
   gap:8px;
 }
-.card p{color:#4b5563;line-height:1.6;margin-bottom:16px}
+.card p{color:#102C57;line-height:1.6;margin-bottom:16px}
 
 a.btn,button{
   display:inline-block;
-  background:#047857;
-  color:#fff;
+  background:#102C57;
+  color:#FEFAF6;
   text-decoration:none;
   border:none;
   border-radius:10px;
@@ -89,28 +89,28 @@ a.btn,button{
   cursor:pointer;
   transition:background .18s ease,transform .12s ease;
 }
-a.btn:hover,button:hover{background:#065f46}
+a.btn:hover,button:hover{background:#0b1f3d}
 button:active,a.btn:active{transform:scale(0.98)}
 
 input{
   width:100%;
   padding:13px 15px;
-  border:1.5px solid #d1d5db;
+  border:1.5px solid #DAC0A3;
   border-radius:10px;
   font-family:Inter,sans-serif;
   font-size:15px;
-  color:#111827;
-  background:#fff;
+  color:#102C57;
+  background:#FEFAF6;
   transition:border-color .18s ease,box-shadow .18s ease;
 }
-input::placeholder{color:#9ca3af}
+input::placeholder{color:#102C57;opacity:.5}
 input:focus{
   outline:none;
-  border-color:#047857;
-  box-shadow:0 0 0 3px rgba(4,120,87,0.15);
+  border-color:#102C57;
+  box-shadow:0 0 0 3px rgba(16,44,87,0.15);
 }
 
-ol{padding-left:22px;color:#374151;line-height:1.9}
+ol{padding-left:22px;color:#102C57;line-height:1.9}
 ol li{padding-left:4px}
 
 .item{
@@ -119,14 +119,14 @@ ol li{padding-left:4px}
   align-items:center;
   gap:10px;
   flex-wrap:wrap;
-  border-top:1px solid #f3f4f6;
+  border-top:1px solid #EADBC8;
   padding:13px 0;
 }
 .actions{display:flex;gap:6px;flex-shrink:0}
-.actions button{background:none;color:#047857;padding:6px;border-radius:8px;font-size:15px}
-.actions button:hover{background:#ecfdf5}
-.del{color:#dc2626 !important}
-.del:hover{background:#fef2f2 !important}
+.actions button{background:none;color:#102C57;padding:6px;border-radius:8px;font-size:15px}
+.actions button:hover{background:#EADBC8}
+.del{color:#7a1f1f !important}
+.del:hover{background:#f2e2d2 !important}
 
 .add-row{display:flex;gap:10px;flex-wrap:wrap}
 .add-row > div{flex:1;min-width:180px}
