@@ -13,7 +13,6 @@
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <style>
-
 *{
   margin:0;
   padding:0;
@@ -26,8 +25,8 @@ body{
   display:flex;
   align-items:center;
   justify-content:center;
-  background:#FFF4BF;
-  color:#8C56D4;
+  background:#FEFAF6;
+  color:#102C57;
   padding:20px;
 }
 
@@ -37,12 +36,12 @@ body{
 }
 
 .login-card{
-  background:#FFF4BF;
-  border:1px solid #DC95FF;
+  background:#FEFAF6;
+  border:1px solid #DAC0A3;
   border-radius:22px;
   padding:40px 34px;
   text-align:center;
-  box-shadow:0 15px 40px rgba(140,86,212,0.18);
+  box-shadow:0 18px 40px rgba(16,44,87,.12);
 }
 
 .logo-wrap{
@@ -51,8 +50,8 @@ body{
   margin:0 auto 22px;
   border-radius:50%;
   padding:5px;
-  background:linear-gradient(135deg,#8C56D4,#DC95FF);
-  box-shadow:0 10px 30px -8px rgba(140,86,212,0.45);
+  background:linear-gradient(135deg,#102C57,#DAC0A3);
+  box-shadow:0 10px 30px rgba(16,44,87,.22);
 }
 
 .logo{
@@ -61,19 +60,19 @@ body{
   border-radius:50%;
   object-fit:cover;
   display:block;
-  border:3px solid #FFF4BF;
+  border:3px solid #FEFAF6;
 }
 
 h1{
   font-family:'Cormorant Garamond',serif;
   font-size:44px;
-  color:#8C56D4;
+  color:#102C57;
   margin-bottom:6px;
   font-weight:700;
 }
 
 .subtitle{
-  color:#8C56D4;
+  color:#102C57;
   opacity:.75;
   font-size:14px;
   margin-bottom:28px;
@@ -88,29 +87,30 @@ label{
   display:block;
   font-size:13px;
   font-weight:600;
-  color:#8C56D4;
+  color:#102C57;
   margin-bottom:7px;
 }
 
 input{
   width:100%;
   padding:14px 15px;
-  border:1.5px solid #DC95FF;
+  border:1.5px solid #DAC0A3;
   border-radius:11px;
-  background:#FFF4BF;
-  color:#8C56D4;
+  background:#FFFDFC;
+  color:#102C57;
   font-size:15px;
+  transition:.2s;
 }
 
 input::placeholder{
-  color:#8C56D4;
-  opacity:.45;
+  color:#102C57;
+  opacity:.4;
 }
 
 input:focus{
   outline:none;
-  border-color:#8C56D4;
-  box-shadow:0 0 0 3px rgba(140,86,212,.15);
+  border-color:#102C57;
+  box-shadow:0 0 0 3px rgba(16,44,87,.12);
 }
 
 .login-btn{
@@ -119,17 +119,16 @@ input:focus{
   padding:14px;
   border:none;
   border-radius:11px;
-  background:#8C56D4;
-  color:#FFF4BF;
+  background:#102C57;
+  color:#FEFAF6;
   font-size:15px;
   font-weight:600;
   cursor:pointer;
-  transition:.2s ease;
+  transition:.25s ease;
 }
 
 .login-btn:hover{
-  background:#DC95FF;
-  color:#8C56D4;
+  background:#0C2345;
 }
 
 .login-btn:active{
@@ -146,8 +145,8 @@ input:focus{
   margin-top:15px;
   padding:10px;
   border-radius:9px;
-  background:#FFBEFB;
-  color:#8C56D4;
+  background:#EADBC8;
+  color:#102C57;
   font-size:13px;
   font-weight:500;
 }
@@ -155,10 +154,9 @@ input:focus{
 .footer{
   margin-top:22px;
   font-size:12px;
-  color:#8C56D4;
+  color:#102C57;
   opacity:.65;
 }
-
 </style>
 </head>
 
@@ -169,11 +167,7 @@ input:focus{
   <div class="login-card">
 
     <div class="logo-wrap">
-      <img
-        src="./images/logo.png"
-        class="logo"
-        alt="Jehovah Jireh"
-      >
+      <img src="./images/logo.png" class="logo" alt="Jehovah Jireh">
     </div>
 
     <h1>Jehovah Jireh</h1>
@@ -185,56 +179,35 @@ input:focus{
     <form id="loginForm">
 
       <div class="input-group">
-
-        <label for="username">
-          Username
-        </label>
-
+        <label for="username">Username</label>
         <input
           type="text"
           id="username"
           placeholder="Enter username"
           autocomplete="username"
-          required
-        >
-
+          required>
       </div>
 
-
       <div class="input-group">
-
-        <label for="password">
-          Password
-        </label>
-
+        <label for="password">Password</label>
         <input
           type="password"
           id="password"
           placeholder="Enter password"
           autocomplete="current-password"
-          required
-        >
-
+          required>
       </div>
-
 
       <button
         type="submit"
         class="login-btn"
         id="loginButton">
-
         Sign In
-
       </button>
 
-
-      <div
-        class="error"
-        id="errorMessage">
-      </div>
+      <div class="error" id="errorMessage"></div>
 
     </form>
-
 
     <div class="footer">
       Prayer Community
@@ -244,9 +217,7 @@ input:focus{
 
 </div>
 
-
 <script>
-
 /* =========================================
    SUPABASE CONFIGURATION
    ========================================= */
@@ -255,7 +226,7 @@ const SUPABASE_URL =
   "https://dmvztbtquvhugyctipok.supabase.co";
 
 const SUPABASE_KEY =
-  "sb_publishable_bw1rR4KOVLtEEs0xrBoMZg_u3ssTmOV";
+  "YOUR_PUBLISHABLE_KEY";
 
 const client =
   supabase.createClient(
@@ -263,26 +234,19 @@ const client =
     SUPABASE_KEY
   );
 
-
 /* =========================================
    LOGIN DETAILS
    ========================================= */
 
-const USERNAME =
-  "childrenofgod";
-
-const SUPABASE_EMAIL =
-  "cog@jj.com";
-
+const USERNAME = "childrenofgod";
+const SUPABASE_EMAIL = "cog@jj.com";
 
 /* =========================================
    SESSION DURATION
    3 MINUTES
    ========================================= */
 
-const SESSION_DURATION =
-  3 * 60 * 1000;
-
+const SESSION_DURATION = 3 * 60 * 1000;
 
 /* =========================================
    LOGIN
@@ -295,15 +259,10 @@ document
     event.preventDefault();
 
     const username =
-      document
-        .getElementById("username")
-        .value
-        .trim();
+      document.getElementById("username").value.trim();
 
     const password =
-      document
-        .getElementById("password")
-        .value;
+      document.getElementById("password").value;
 
     const button =
       document.getElementById("loginButton");
@@ -311,90 +270,38 @@ document
     const error =
       document.getElementById("errorMessage");
 
-
     error.style.display = "none";
 
-
-    /* Check username */
-
     if(username !== USERNAME){
-
-      error.textContent =
-        "Incorrect username or password.";
-
+      error.textContent = "Incorrect username or password.";
       error.style.display = "block";
-
       return;
     }
-
 
     button.disabled = true;
+    button.textContent = "Signing in...";
 
-    button.textContent =
-      "Signing in...";
-
-
-    /* =========================================
-       SUPABASE AUTHENTICATION
-       ========================================= */
-
-    const { data, error: loginError } =
+    const { error: loginError } =
       await client.auth.signInWithPassword({
-
-        email:
-          SUPABASE_EMAIL,
-
-        password:
-          password
-
+        email: SUPABASE_EMAIL,
+        password: password
       });
 
-
-    /* =========================================
-       LOGIN FAILED
-       ========================================= */
-
     if(loginError){
-
-      console.error(
-        "Supabase login error:",
-        loginError
-      );
-
-      error.textContent =
-        "Incorrect username or password.";
-
+      error.textContent = "Incorrect username or password.";
       error.style.display = "block";
-
       button.disabled = false;
-
-      button.textContent =
-        "Sign In";
-
+      button.textContent = "Sign In";
       return;
     }
-
-
-    /* =========================================
-       START 3-MINUTE SESSION
-       ========================================= */
 
     sessionStorage.setItem(
       "jj_login_time",
       Date.now().toString()
     );
 
-
-    /* =========================================
-       GO TO MAIN WEBSITE
-       ========================================= */
-
-    window.location.replace(
-      "index.html"
-    );
-
+    window.location.replace("index.html");
 });
-
 </script>
 
 </body>
