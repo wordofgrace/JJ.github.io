@@ -9,330 +9,64 @@
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
 *{margin:0;padding:0;box-sizing:border-box;font-family:Inter,sans-serif}
-body{background:#EEEEEE;color:#141E61}
-
-/* ===== Header ===== */
-header{
-  position:relative;
-  padding:22px 24px;
-  border-bottom:1px solid #787A91;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  background:linear-gradient(180deg,#EEEEEE 0%,#EEEEEE 100%);
-}
-header::before{
-  content:"";
-  position:absolute;
-  top:0;left:0;right:0;
-  height:4px;
-  background:linear-gradient(90deg,#141E61,#787A91,#141E61);
-}
-.back{
-  display:inline-flex;
-  align-items:center;
-  gap:8px;
-  color:#141E61;
-  text-decoration:none;
-  font-weight:600;
-  font-size:14.5px;
-  padding:9px 16px 9px 12px;
-  border:1.5px solid #141E61;
-  background:#EEEEEE;
-  border-radius:999px;
-  transition:background .18s ease,transform .12s ease,box-shadow .18s ease;
-}
-.back:hover{background:#EEEEEE;box-shadow:0 4px 14px -4px rgba(20,30,97,0.35)}
-.back:active{transform:scale(0.97)}
-.back svg{width:18px;height:18px;flex-shrink:0}
-.page-title{
-  font-family:Calibri,'Trebuchet MS',sans-serif;
-  color:#141E61;
-  font-size:41px;
-  font-weight:700;
-  text-align:center;
-  flex:1;
-}
-.header-spacer{width:96px}
-
-/* ===== Layout ===== */
+html{-webkit-text-size-adjust:100%;}
+body{background:#EEEEEE;color:#141E61;overflow-x:hidden}
+header{position:relative;padding:22px 24px;border-bottom:1px solid #787A91;display:flex;justify-content:space-between;align-items:center;background:#EEEEEE}
+header::before{content:"";position:absolute;top:0;left:0;right:0;height:4px;background:linear-gradient(90deg,#141E61,#787A91,#141E61)}
+.back{display:inline-flex;align-items:center;gap:8px;color:#141E61;text-decoration:none;font-weight:600;font-size:14.5px;padding:9px 16px 9px 12px;border:1.5px solid #141E61;background:#EEEEEE;border-radius:999px}
+.back svg{width:18px;height:18px;flex-shrink:0}.page-title{font-family:Calibri,'Trebuchet MS',sans-serif;color:#141E61;font-size:41px;font-weight:700;text-align:center;flex:1}.header-spacer{width:96px}
 .container{max-width:900px;margin:auto;padding:40px 20px 60px}
-.card{
-  border:1px solid #787A91;
-  border-radius:16px;
-  padding:26px;
-  margin-bottom:22px;
-  background:#EEEEEE;
-  transition:box-shadow .2s ease,transform .2s ease;
-}
-.card:hover{box-shadow:0 12px 28px -12px rgba(20,30,97,0.25);transform:translateY(-2px)}
-.card h2{
-  color:#141E61;
-  font-size:20px;
-  margin-bottom:10px;
-  display:flex;
-  align-items:center;
-  gap:8px;
-}
-.card p{color:#141E61;line-height:1.6;margin-bottom:16px}
-
-
-.confession-card h3 {
-  margin-top: 24px;
-  margin-bottom: 12px;
-  color: #102C57;
-  font-size: 18px;
-}
-
-.confession-card ol {
-  padding-left: 24px;
-  line-height: 1.8;
-}
-
-.confession-card li {
-  margin-bottom: 10px;
-}
-
-.prayer-text {
-  line-height: 1.9;
-  text-align: justify;
-}
-
-.prayer-text p {
-  margin-bottom: 14px;
-}
-
-.prayer-text .emphasis {
-  text-align: center;
-  font-weight: 700;
-  color: #102C57;
-}
-
-
-
-  
-a.btn,button{
-  display:inline-block;
-  background:#141E61;
-  color:#EEEEEE;
-  text-decoration:none;
-  border:none;
-  border-radius:10px;
-  padding:12px 20px;
-  font-weight:600;
-  font-size:14.5px;
-  cursor:pointer;
-  transition:background .18s ease,transform .12s ease;
-}
-a.btn:hover,button:hover{background:#0F044C}
-button:active,a.btn:active{transform:scale(0.98)}
-
-input{
-  width:100%;
-  padding:13px 15px;
-  border:1.5px solid #787A91;
-  border-radius:10px;
-  font-family:Inter,sans-serif;
-  font-size:15px;
-  color:#141E61;
-  background:#EEEEEE;
-  transition:border-color .18s ease,box-shadow .18s ease;
-}
-input::placeholder{color:#141E61;opacity:.5}
-input:focus{
-  outline:none;
-  border-color:#141E61;
-  box-shadow:0 0 0 3px rgba(20,30,97,0.15);
-}
-
-ol{padding-left:22px;color:#141E61;line-height:1.9}
-ol li{padding-left:4px}
-
-.item{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  gap:10px;
-  flex-wrap:wrap;
-  border-top:1px solid #EEEEEE;
-  padding:13px 0;
-}
-.actions{display:flex;gap:6px;flex-shrink:0}
-.actions button{background:none;color:#141E61;padding:6px;border-radius:8px;font-size:15px}
-.actions button:hover{background:#EEEEEE}
-.del{color:#7a1f1f !important}
-.del:hover{background:#f2e2d2 !important}
-
-.add-row{display:flex;gap:10px;flex-wrap:wrap}
-.add-row > div{flex:1;min-width:180px}
-
-/* ===== Responsive ===== */
-@media(max-width:640px){
-  header{padding:16px}
-  .back{font-size:0;padding:10px;gap:0}
-  .back svg{width:19px;height:19px}
-  .page-title{font-size:20px}
-  .header-spacer{width:38px}
-  .container{padding:28px 16px 44px}
-  .card{padding:20px}
-  .card h2{font-size:18px}
-  .add-row{flex-direction:column}
-  .add-row > div{min-width:0}
-  .add-row button{width:100%}
-}
-
-@media(max-width:400px){
-  .page-title{font-size:17px}
-}
+.card{border:1px solid #787A91;border-radius:16px;padding:26px;margin-bottom:22px;background:#EEEEEE}
+.card h2{color:#141E61;font-size:20px;margin-bottom:10px;display:flex;align-items:center;gap:8px}.card p{color:#141E61;line-height:1.6;margin-bottom:16px}
+.confession-card{overflow:hidden}.confession-card h3{margin:26px 0 12px;color:#141E61;font-size:18px;line-height:1.5}.confession-card h3:first-of-type{margin-top:8px}
+.confession-card ol{padding-left:24px;color:#141E61;line-height:1.75;margin:0}.confession-card ol li{padding-left:5px;margin-bottom:9px}
+.prayer-text{color:#141E61;font-size:15px;line-height:1.85;text-align:left;overflow-wrap:break-word;word-break:normal}
+.prayer-text p{margin:0 0 16px;color:#141E61;line-height:inherit}.prayer-text p:last-child{margin-bottom:0}.prayer-text .emphasis{text-align:center;font-weight:700;margin:18px 0}
+.confession-card strong{font-weight:700}
+a.btn,button{display:inline-block;background:#141E61;color:#EEEEEE;text-decoration:none;border:none;border-radius:10px;padding:12px 20px;font-weight:600;font-size:14.5px;cursor:pointer}
+a.btn:hover,button:hover{background:#0F044C}button:active,a.btn:active{transform:scale(.98)}
+input{width:100%;padding:13px 15px;border:1.5px solid #787A91;border-radius:10px;font-family:Inter,sans-serif;font-size:15px;color:#141E61;background:#EEEEEE}input::placeholder{color:#141E61;opacity:.5}input:focus{outline:none;border-color:#141E61;box-shadow:0 0 0 3px rgba(20,30,97,.15)}
+ol{padding-left:22px;color:#141E61;line-height:1.9}ol li{padding-left:4px}
+.item{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;border-top:1px solid #D8D8D8;padding:13px 0}.actions{display:flex;gap:6px;flex-shrink:0}.actions button{background:none;color:#141E61;padding:6px;border-radius:8px;font-size:15px}.actions button:hover{background:#E2E2E2}.del{color:#7a1f1f!important}.del:hover{background:#f2e2d2!important}.add-row{display:flex;gap:10px;flex-wrap:wrap}.add-row>div{flex:1;min-width:180px}
+@media(max-width:640px){header{padding:16px 14px}.back{font-size:0;padding:10px;gap:0}.back svg{width:19px;height:19px}.page-title{font-size:20px;line-height:1.2}.header-spacer{width:38px}.container{padding:22px 12px 40px}.card{padding:18px 16px;border-radius:14px;margin-bottom:18px}.card h2{font-size:18px;line-height:1.4}.card p{line-height:1.65}.confession-card h3{font-size:17px;line-height:1.5;margin-top:22px;margin-bottom:10px}.confession-card ol{padding-left:21px;line-height:1.7}.confession-card ol li{padding-left:4px;margin-bottom:8px}.prayer-text{font-size:15px;line-height:1.8;text-align:left}.prayer-text p{margin-bottom:14px}.prayer-text .emphasis{margin:16px 0;line-height:1.7}.add-row{flex-direction:column}.add-row>div{min-width:0;width:100%}.add-row button{width:100%}}
+@media(max-width:400px){.page-title{font-size:17px}.container{padding-left:10px;padding-right:10px}.card{padding:16px 14px}.confession-card h2{font-size:17px}.confession-card h3{font-size:16px}.prayer-text{font-size:14px;line-height:1.75}.confession-card ol{font-size:14px;line-height:1.65}}
 </style>
 </head>
 <body>
-
 <header>
-  <a href="index.html" class="back" aria-label="Back to home">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11.5 12 4l9 7.5"/><path d="M5.5 10v9a1 1 0 0 0 1 1H10v-6h4v6h3.5a1 1 0 0 0 1-1v-9"/></svg>
-    <span>Home</span>
-  </a>
-  <h1 class="page-title">Digital Chapel</h1>
-  <div class="header-spacer"></div>
+<a href="index.html" class="back" aria-label="Back to home"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11.5 12 4l9 7.5"/><path d="M5.5 10v9a1 1 0 0 0 1 1H10v-6h4v6h3.5a1 1 0 0 0 1-1v-9"/></svg><span>Home</span></a>
+<h1 class="page-title">Digital Chapel</h1><div class="header-spacer"></div>
 </header>
-
 <div class="container">
-
-  <div class="card">
-    <h2>🙏 Eucharistic Adoration</h2>
-    <p>"I am with you always, even unto the end of the world." — Matthew 28:20 </p>
-    <a class="btn" href="https://www.youtube.com/live/qz8YE61BoXM?si=_36lYdH_MLmsJLug" target="_blank">Adoration</a>
-  </div>
-
-  <div class="card">
-    <h2>📖 Word of God</h2>
-    <p>My sheep hear my voice; I know them, and they follow me. — John 10:27</p>
-    <a class="btn" href="https://thiruvachanam.in/" target="_blank">Word of God</a>
-  </div>
-
-
+<div class="card"><h2>🙏 Eucharistic Adoration</h2><p>"I am with you always, even unto the end of the world." — Matthew 28:20</p><a class="btn" href="https://www.youtube.com/live/qz8YE61BoXM?si=_36lYdH_MLmsJLug" target="_blank" rel="noopener">Adoration</a></div>
+<div class="card"><h2>📖 Word of God</h2><p>My sheep hear my voice; I know them, and they follow me. — John 10:27</p><a class="btn" href="https://thiruvachanam.in/" target="_blank" rel="noopener">Word of God</a></div>
 <div class="card confession-card">
-
-  <h2>✝️ കുമ്പസാരത്തിനുള്ള ഒരുക്കം</h2>
-
-  <h3>കുമ്പസാരത്തിനു വേണ്ട ഒരുക്കങ്ങൾ</h3>
-
-  <ol>
-    <li>പാപങ്ങളെല്ലാം ക്രമമായി ഓർക്കുക.</li>
-    <li>പാപങ്ങളെക്കുറിച്ച് പശ്ചാത്തപിക്കുക.</li>
-    <li>മേലിൽ പാപം ചെയ്യുകയില്ലെന്ന് പ്രതിജ്ഞ ചെയ്യുക.</li>
-    <li>ചെയ്തുപോയ മാരകപാപങ്ങളെങ്കിലും വൈദികനെ അറിയിക്കുക.</li>
-    <li>വൈദികൻ കൽപ്പിക്കുന്ന പ്രായശ്ചിത്തം നിറവേറ്റുക.</li>
-  </ol>
-
-
-  <h3>🙏 കുമ്പസാരത്തിനുള്ള ജപം</h3>
-
-  <div class="prayer-text">
-    <p>
-      സർവ്വശക്തനായ ദൈവത്തോടും, നിത്യകന്യകയായ പരിശുദ്ധ മറിയത്തോടും
-      പ്രധാന മാലാഖയായ വിശുദ്ധ മിഖായേലിനോടും വിശുദ്ധ സ്നാപക യോഹന്നാനോടും
-      ശ്ലീഹന്മാരായ വിശുദ്ധ പത്രോസിനോടും വിശുദ്ധ പൗലോസിനോടും വിശുദ്ധ തോമായോടും
-      സകല വിശുദ്ധരോടും പിതാവേ അങ്ങയോടും ഞാൻ ഏറ്റുപറയുന്നു.
-      വിചാരത്താലും വാക്കാലും പ്രവൃത്തിയാലും ഞാൻ വളരെ പാപം ചെയ്തുപോയി.
-    </p>
-
-    <p class="emphasis">
-      എന്റെ പിഴ, എന്റെ പിഴ, എന്റെ വലിയ പിഴ.
-    </p>
-
-    <p>
-      ആകയാൽ നിത്യകന്യകയായ പരിശുദ്ധ മറിയത്തോടും പ്രധാന മാലാഖയായ വിശുദ്ധ മിഖായേലിനോടും വിശുദ്ധ സ്നാപക യോഹന്നാനോടും ശ്ലീഹന്മാരായ വിശുദ്ധ പത്രോസിനോടും വിശുദ്ധ പൗലോസിനോടും വിശുദ്ധ തോമായോടും സകല വിശുദ്ധരോടും പിതാവേ അങ്ങയോടും നമ്മുടെ കർത്താവായ ദൈവത്തോട് എനിക്കുവേണ്ടി പ്രാർത്ഥിക്കണമേ എന്നു ഞാൻ അപേക്ഷിക്കുന്നു. ആമ്മേൻ.
-    </p>
-  </div>
-
-
-  <h3>🕊️ കുമ്പസാരസമയത്ത്</h3>
-
-  <ol>
-    <li>
-      കുമ്പസാരിച്ചിട്ട് എത്ര നാളായെന്ന് വൈദികനെ അറിയിക്കുക.
-    </li>
-
-    <li>
-      വൈദികന്റെ സ്ഥാനത്ത് യേശുവിനെ കണ്ടുകൊണ്ട്:
-      <strong>“കർത്താവേ, പാപിയായ എന്നിൽ കനിയേണമേ.”</strong>
-    </li>
-
-    <li>
-      ചെയ്തുപോയ ഓരോ പാപവും വ്യക്തമായി വൈദികനോടു പറയുക.
-    </li>
-
-    <li>
-      വൈദികൻ കൽപ്പിക്കുന്ന പ്രായശ്ചിത്തം ശ്രദ്ധയോടെ കേട്ടതിനു ശേഷം
-      കുമ്പസാരത്തിനുള്ള ജപത്തിന്റെ രണ്ടാം ഭാഗം ചൊല്ലുക.
-      ശേഷം മനസ്താപ പ്രകരണം ചൊല്ലുക.
-    </li>
-
-    <li>
-      വൈദികൻ കൽപ്പിക്കുന്ന പ്രായശ്ചിത്തം കുർബാന സ്വീകരണത്തിനു മുമ്പ്
-      ചെയ്യുവാൻ സാധിക്കുന്നതാണെങ്കിൽ അപ്പോൾ തന്നെയും അല്ലെങ്കിൽ
-      അനുയോജ്യമായ സമയത്തും നിർവ്വഹിക്കുക.
-    </li>
-  </ol>
-
-
-  <h3>❤️ മനസ്താപ പ്രകരണം</h3>
-
-  <div class="prayer-text">
-    <p>
-      എന്റെ ദൈവമേ, ഏറ്റം നല്ലവനും എല്ലാറ്റിനും ഉപരിയായി സ്നേഹിക്കപ്പെടുവാൻ യോഗ്യനുമായ അങ്ങേക്കെതിരായി പാപം ചെയ്തുപോയതിനാൽ പൂർണ്ണ ഹൃദയത്തോടെ ഞാൻ മനസ്തപിക്കുകയും പാപങ്ങളെ വെറുക്കുകയും ചെയ്യുന്നു. അങ്ങയെ ഞാൻ സ്നേഹിക്കുന്നു. എന്റെ പാപങ്ങളാൽ എന്റെ ആത്മാവിനെ അശുദ്ധമാക്കിയതിനാലും, സ്വർഗ്ഗത്തെ നഷ്ടപ്പെടുത്തി നരകത്തിന് അർഹനായി (അർഹയായി) തീർന്നതിനാലും ഞാൻ ഖേദിക്കുന്നു.
-     <p>
-    <p>
-      അങ്ങയുടെ പ്രസാദവരസഹായത്താൽ പാപസാഹചര്യങ്ങളെ ഉപേക്ഷിക്കുമെന്നും മേലിൽ പാപം ചെയ്കയില്ലെന്നും ദൃഢമായി ഞാൻ പ്രതിജ്ഞ ചെയ്യുന്നു. ഏതെങ്കിലുമൊരു പാപം ചെയ്യുക എന്നതിനേക്കാൾ മരിക്കുവാനും ഞാൻ സന്നദ്ധനാ (സന്നദ്ധയാ) യിരിക്കുന്നു.
-    </p>
-
-    <p class="emphasis">
-      ആമ്മേൻ.
-    </p>
-  </div>
-
+<h2>✝️ കുമ്പസാരത്തിനുള്ള ഒരുക്കം</h2>
+<h3>കുമ്പസാരത്തിനു വേണ്ട ഒരുക്കങ്ങൾ</h3>
+<ol><li>പാപങ്ങളെല്ലാം ക്രമമായി ഓർക്കുക.</li><li>പാപങ്ങളെക്കുറിച്ച് പശ്ചാത്തപിക്കുക.</li><li>മേലിൽ പാപം ചെയ്യുകയില്ലെന്ന് പ്രതിജ്ഞ ചെയ്യുക.</li><li>ചെയ്തുപോയ മാരകപാപങ്ങളെങ്കിലും വൈദികനെ അറിയിക്കുക.</li><li>വൈദികൻ കൽപ്പിക്കുന്ന പ്രായശ്ചിത്തം നിറവേറ്റുക.</li></ol>
+<h3>🙏 കുമ്പസാരത്തിനുള്ള ജപം</h3>
+<div class="prayer-text">
+<p>സർവ്വശക്തനായ ദൈവത്തോടും, നിത്യകന്യകയായ പരിശുദ്ധ മറിയത്തോടും പ്രധാന മാലാഖയായ വിശുദ്ധ മിഖായേലിനോടും വിശുദ്ധ സ്നാപക യോഹന്നാനോടും ശ്ലീഹന്മാരായ വിശുദ്ധ പത്രോസിനോടും വിശുദ്ധ പൗലോസിനോടും വിശുദ്ധ തോമായോടും സകല വിശുദ്ധരോടും പിതാവേ അങ്ങയോടും ഞാൻ ഏറ്റുപറയുന്നു. വിചാരത്താലും വാക്കാലും പ്രവൃത്തിയാലും ഞാൻ വളരെ പാപം ചെയ്തുപോയി.</p>
+<p class="emphasis">എന്റെ പിഴ, എന്റെ പിഴ, എന്റെ വലിയ പിഴ.</p>
+<p>ആകയാൽ നിത്യകന്യകയായ പരിശുദ്ധ മറിയത്തോടും പ്രധാന മാലാഖയായ വിശുദ്ധ മിഖായേലിനോടും വിശുദ്ധ സ്നാപക യോഹന്നാനോടും ശ്ലീഹന്മാരായ വിശുദ്ധ പത്രോസിനോടും വിശുദ്ധ പൗലോസിനോടും വിശുദ്ധ തോമായോടും സകല വിശുദ്ധരോടും പിതാവേ അങ്ങയോടും നമ്മുടെ കർത്താവായ ദൈവത്തോട് എനിക്കുവേണ്ടി പ്രാർത്ഥിക്കണമേ എന്നു ഞാൻ അപേക്ഷിക്കുന്നു. ആമ്മേൻ.</p>
 </div>
-
-
-
-  
-  <div class="card">
-    <h2>🤝 Fellowship</h2>
-    <p>Add friends to pray together.</p>
-    <div class="add-row">
-      <div><input id="nameInput" placeholder="Add name"></div>
-      <button onclick="saveFriend()">Add</button>
-    </div>
-    <div id="friends" style="margin-top:12px"></div>
-  </div>
-
+<h3>🕊️ കുമ്പസാരസമയത്ത്</h3>
+<ol><li>കുമ്പസാരിച്ചിട്ട് എത്ര നാളായെന്ന് വൈദികനെ അറിയിക്കുക.</li><li>വൈദികന്റെ സ്ഥാനത്ത് യേശുവിനെ കണ്ടുകൊണ്ട്: <strong>“കർത്താവേ, പാപിയായ എന്നിൽ കനിയേണമേ.”</strong></li><li>ചെയ്തുപോയ ഓരോ പാപവും വ്യക്തമായി വൈദികനോടു പറയുക.</li><li>വൈദികൻ കൽപ്പിക്കുന്ന പ്രായശ്ചിത്തം ശ്രദ്ധയോടെ കേട്ടതിനു ശേഷം കുമ്പസാരത്തിനുള്ള ജപത്തിന്റെ രണ്ടാം ഭാഗം ചൊല്ലുക. ശേഷം മനസ്താപ പ്രകരണം ചൊല്ലുക.</li><li>വൈദികൻ കൽപ്പിക്കുന്ന പ്രായശ്ചിത്തം കുർബാന സ്വീകരണത്തിനു മുമ്പ് ചെയ്യുവാൻ സാധിക്കുന്നതാണെങ്കിൽ അപ്പോൾ തന്നെയും അല്ലെങ്കിൽ അനുയോജ്യമായ സമയത്തും നിർവ്വഹിക്കുക.</li></ol>
+<h3>❤️ മനസ്താപ പ്രകരണം</h3>
+<div class="prayer-text">
+<p>എന്റെ ദൈവമേ, ഏറ്റം നല്ലവനും എല്ലാറ്റിനും ഉപരിയായി സ്നേഹിക്കപ്പെടുവാൻ യോഗ്യനുമായ അങ്ങേക്കെതിരായി പാപം ചെയ്തുപോയതിനാൽ പൂർണ്ണ ഹൃദയത്തോടെ ഞാൻ മനസ്തപിക്കുകയും പാപങ്ങളെ വെറുക്കുകയും ചെയ്യുന്നു. അങ്ങയെ ഞാൻ സ്നേഹിക്കുന്നു. എന്റെ പാപങ്ങളാൽ എന്റെ ആത്മാവിനെ അശുദ്ധമാക്കിയതിനാലും, സ്വർഗ്ഗത്തെ നഷ്ടപ്പെടുത്തി നരകത്തിന് അർഹനായി (അർഹയായി) തീർന്നതിനാലും ഞാൻ ഖേദിക്കുന്നു.</p>
+<p>അങ്ങയുടെ പ്രസാദവരസഹായത്താൽ പാപസാഹചര്യങ്ങളെ ഉപേക്ഷിക്കുമെന്നും മേലിൽ പാപം ചെയ്കയില്ലെന്നും ദൃഢമായി ഞാൻ പ്രതിജ്ഞ ചെയ്യുന്നു. ഏതെങ്കിലുമൊരു പാപം ചെയ്യുക എന്നതിനേക്കാൾ മരിക്കുവാനും ഞാൻ സന്നദ്ധനാ (സന്നദ്ധയാ) യിരിക്കുന്നു.</p>
+<p class="emphasis">ആമ്മേൻ.</p>
+</div></div>
+<div class="card"><h2>🤝 Fellowship</h2><p>Add friends to pray together.</p><div class="add-row"><div><input id="nameInput" placeholder="Add name"></div><button onclick="saveFriend()">Add</button></div><div id="friends" style="margin-top:12px"></div></div>
 </div>
-
 <script>
 const client=supabase.createClient("https://dmvztbtquvhugyctipok.supabase.co","sb_publishable_bw1rR4KOVLtEEs0xrBoMZg_u3ssTmOV");
 let editId=null;
-async function loadFriends(){
-  const{data}=await client.from("fellowship").select("*").order("created_at",{ascending:false});
-  const box=document.getElementById("friends");
-  box.innerHTML="";
-  (data||[]).forEach(f=>box.innerHTML+=`<div class=item><span>${f.name}</span><div class=actions><button onclick="editFriend(${f.id},'${f.name.replace(/'/g,"\\'")}')">✏️</button><button class=del onclick="deleteFriend(${f.id})">🗑️</button></div></div>`);
-}
-async function saveFriend(){
-  const i=document.getElementById("nameInput"),n=i.value.trim();
-  if(!n)return;
-  if(editId){await client.from("fellowship").update({name:n}).eq("id",editId);editId=null;}
-  else await client.from("fellowship").insert({name:n});
-  i.value="";
-  loadFriends();
-}
-function editFriend(id,n){editId=id;document.getElementById("nameInput").value=n;}
-async function deleteFriend(id){
-  if(!confirm("Delete friend?"))return;
-  await client.from("fellowship").delete().eq("id",id);
-  loadFriends();
-}
+async function loadFriends(){const{data,error}=await client.from("fellowship").select("*").order("created_at",{ascending:false});const box=document.getElementById("friends");if(error){console.error(error);box.innerHTML="";return}box.innerHTML="";(data||[]).forEach(f=>{const safeName=String(f.name).replace(/'/g,"\\'");box.innerHTML+=`<div class="item"><span>${f.name}</span><div class="actions"><button onclick="editFriend(${f.id},'${safeName}')">✏️</button><button class="del" onclick="deleteFriend(${f.id})">🗑️</button></div></div>`})}
+async function saveFriend(){const i=document.getElementById("nameInput"),n=i.value.trim();if(!n)return;if(editId){await client.from("fellowship").update({name:n}).eq("id",editId);editId=null}else await client.from("fellowship").insert({name:n});i.value="";loadFriends()}
+function editFriend(id,n){editId=id;document.getElementById("nameInput").value=n;document.getElementById("nameInput").focus()}
+async function deleteFriend(id){if(!confirm("Delete friend?"))return;await client.from("fellowship").delete().eq("id",id);loadFriends()}
 loadFriends();
 </script>
 </body>
