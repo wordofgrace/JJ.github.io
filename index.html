@@ -308,12 +308,80 @@ footer{text-align:center;padding:24px;color:#141E61;opacity:.75;margin-top:60px;
 <section class="section"><div class="chapel"><h2>Step into the Digital Chapel</h2><p class="section-sub">Silence • Prayer • Scripture • Reflection</p><a class="enter" href="./chapel.html">Visit Chapel</a></div></section>
 </div><footer>Jehovah Jireh • United in Prayer • Growing in Christ</footer>
 <script>
-const client=supabase.createClient("https://dmvztbtquvhugyctipok.supabase.co","sb_publishable_bw1rR4KOVLtEEs0xrBoMZg_u3ssTmOV");
+  const client = authClient;
 const prayers=[["holy_mass","Holy Mass","mass.jpg"],["rosary","Rosary","rosary.jpg"],["divine_mercy","Divine Mercy","divine.jpg"],["hail_mary","Hail Mary","mary.jpg"],["our_father","Our Father","trinity.jpg"],["apostles_creed","Apostles' Creed","pentecost.jpg"],["adoration","Adoration","adoration.jpg"]];
 const grid=document.getElementById("cards");
 prayers.forEach(([k,t,i])=>grid.innerHTML+=`<div class="card"><img src="./images/${i}"><div class="content"><h3>${t}</h3><div id="${k}" class="count">0</div><button class="full" onclick="increment('${k}')">Add</button></div></div>`);
-async function loadCounts(){const{data}=await client.from("prayer_counts").select("*").eq("id",1).single();if(!data)return;for(const k in data){const e=document.getElementById(k);if(e)e.textContent=data[k];}}
-async function increment(c){const{data}=await client.from("prayer_counts").select(c).eq("id",1).single();await client.from("prayer_counts").update({[c]:data[c]+1}).eq("id",1);loadCounts();}
+
+async function loadCounts() {
+  const { data, error } = await client
+    .from("prayer_counts")
+    .select("*")
+    .eq("id", 1)
+    .maybeSingle();
+
+  if (error) {
+    console.error("Error loading prayer counts:", error);
+    return;
+  }
+
+  if (!data) {
+    console.error("No prayer_counts row found for id = 1.");
+    return;
+  }
+
+  for (const k in data) {
+    const e = document.getElementById(k);
+
+    if (e) {
+      e.textContent = data[k];
+    }
+  }
+}
+
+
+async function increment(c) {
+
+  const { data, error } = await client
+    .from("prayer_counts")
+    .select(c)
+    .eq("id", 1)
+    .maybeSingle();
+
+  if (error) {
+    console.error("Error reading prayer count:", error);
+    return;
+  }
+
+  if (!data) {
+    console.error("No prayer_counts row found for id = 1.");
+    return;
+  }
+
+  const newCount = Number(data[c] || 0) + 1;
+
+  const { error: updateError } = await client
+    .from("prayer_counts")
+    .update({
+      [c]: newCount
+    })
+    .eq("id", 1);
+
+  if (updateError) {
+    console.error("Error updating prayer count:", updateError);
+    return;
+  }
+
+  const element = document.getElementById(c);
+
+  if (element) {
+    element.textContent = newCount;
+  }
+}
+
+
+
+  
 let editI=null;
 async function loadIntentions(){const{data}=await client.from("prayer_intentions").select("*").order("created_at",{ascending:false});const box=document.getElementById("intentions");box.innerHTML="";(data||[]).forEach(r=>box.innerHTML+=`<div class=item><span>${r.intention}</span><div class=actions><button class=icon onclick="editIntention(${r.id},'${r.intention.replace(/'/g,"\\'")}')">✏️</button><button class="icon del" onclick="deleteIntention(${r.id})">🗑️</button></div></div>`);}
 function editIntention(id,t){editI=id;document.getElementById("intentionInput").value=t;}
