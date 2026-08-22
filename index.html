@@ -3,17 +3,203 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Jehovah Jireh - Date Icon Patch</title>
+<link rel="icon" type="image/jpeg" href="./images/favicon.jpg">
+<title>Jehovah Jireh</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Cormorant+Garamond:wght@500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script>
+const authClient = supabase.createClient(
+  "https://dmvztbtquvhugyctipok.supabase.co",
+  "sb_publishable_bw1rR4KOVLtEEs0xrBoMZg_u3ssTmOV"
+);
+
+const SESSION_DURATION = 7 * 60 * 1000;
+
+async function checkSession() {
+
+  const loginTime =
+    sessionStorage.getItem("jj_login_time");
+
+  const { data } =
+    await authClient.auth.getSession();
+
+  if (!data.session || !loginTime) {
+
+    await authClient.auth.signOut();
+
+    window.location.replace("login.html");
+
+    return;
+  }
+
+  const elapsed =
+    Date.now() - Number(loginTime);
+
+  if (elapsed >= SESSION_DURATION) {
+
+    await authClient.auth.signOut();
+
+    sessionStorage.removeItem("jj_login_time");
+
+    alert(
+      "Your 3-minute session has ended. Please sign in again."
+    );
+
+    window.location.replace("login.html");
+
+    return;
+  }
+
+  setTimeout(async () => {
+
+    await authClient.auth.signOut();
+
+    sessionStorage.removeItem("jj_login_time");
+
+    alert(
+      "Your 3-minute session has ended. Please sign in again."
+    );
+
+    window.location.replace("login.html");
+
+  }, SESSION_DURATION - elapsed);
+}
+
+checkSession();
+</script>
+  
 <style>
-body{font-family:Inter,Arial,sans-serif;background:#EEEEEE;padding:40px;color:#141E61;line-height:1.6}
-pre{background:#fff;border:1px solid #ccc;padding:16px;border-radius:12px;overflow:auto;white-space:pre-wrap}
-h2{margin-top:0}
-</style>
-</head>
-<body>
-<h2>Paste this into your existing HTML</h2>
-<p>Replace your current <b>.date-field</b> CSS block with the following:</p>
-<pre>.date-field{
+*{margin:0;padding:0;box-sizing:border-box;font-family:Inter,sans-serif}body{background:#EEEEEE;color:#141E61}
+
+/* ===== Header ===== */
+header{
+  position:relative;
+  text-align:center;
+  padding:64px 20px 56px;
+  background:
+    radial-gradient(circle at 15% 20%, rgba(20,30,97,0.08), transparent 45%),
+    radial-gradient(circle at 85% 15%, rgba(120,122,145,0.25), transparent 45%),
+    linear-gradient(180deg,#EEEEEE 0%,#EEEEEE 100%);
+  overflow:hidden;
+}
+header::before{
+  content:"";
+  position:absolute;
+  top:0;left:0;right:0;
+  height:6px;
+  background:linear-gradient(90deg,#141E61,#787A91,#141E61);
+}
+.header-inner{position:relative;z-index:1;max-width:640px;margin:0 auto}
+.logo-wrap{
+  width:151px;height:151px;
+  margin:0 auto 22px;
+  border-radius:50%;
+  padding:5px;
+  background:linear-gradient(135deg,#141E61,#787A91);
+  box-shadow:0 10px 30px -8px rgba(20,30,97,0.45);
+}
+.logo{
+  width:100%;height:100%;
+  border-radius:50%;
+  object-fit:cover;
+  display:block;
+  border:3px solid #EEEEEE;
+}
+.eyebrow{
+  display:inline-block;
+  font-size:12px;
+  font-weight:600;
+  letter-spacing:2.5px;
+  text-transform:uppercase;
+  color:#141E61;
+  background:#EEEEEE;
+  border:1px solid #787A91;
+  padding:6px 16px;
+  border-radius:999px;
+  margin-bottom:18px;
+}
+h1{
+  font-family:'Cormorant Garamond',serif;
+  color:#141E61;
+  font-size:64px;
+  font-weight:700;
+  letter-spacing:0.5px;
+  line-height:1.1;
+}
+.divider{
+  width:64px;height:3px;
+  background:linear-gradient(90deg,#141E61,#787A91);
+  margin:18px auto;
+  border-radius:2px;
+}
+.subtitle{
+  color:#141E61;
+  margin-top:4px;
+  font-size:17px;
+  font-weight:400;
+  font-style:italic;
+  opacity:.85;
+}
+.psalm{
+  color:#141E61;
+  font-weight:600;
+  margin-top:10px;
+  font-size:14px;
+  letter-spacing:0.5px;
+  text-transform:uppercase;
+}
+/* ===== End Header ===== */
+
+.container{max-width:1200px;margin:auto;padding:40px 20px}.section{margin-top:55px}.section-title{font-size:30px;margin-bottom:8px}.section-sub{color:#141E61;opacity:.7;margin-bottom:22px}
+
+/* ===== Prayer cards (340:210 image ratio) ===== */
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:20px}
+.card{border:1px solid #787A91;border-radius:16px;overflow:hidden;background:#EEEEEE;transition:box-shadow .2s ease,transform .2s ease}
+.card:hover{box-shadow:0 12px 28px -10px rgba(20,30,97,0.25);transform:translateY(-2px)}
+.card img{width:100%;aspect-ratio:340/210;object-fit:cover;display:block;background:#EEEEEE}
+.content{padding:18px;text-align:center}
+.count{font-size:42px;font-weight:700;color:#141E61;margin:14px 0}
+
+button{background:#141E61;color:#EEEEEE;border:none;border-radius:10px;padding:12px 16px;font-weight:600;cursor:pointer;font-size:15px;transition:background .18s ease,transform .12s ease}
+button:hover{background:#0F044C}
+button:active{transform:scale(0.98)}
+.full{width:100%}
+
+/* ===== Standardised inputs / textareas ===== */
+.row{
+  display:flex;
+  gap:12px;
+  flex-wrap:wrap;
+  align-items:center;
+}
+input,textarea{
+  width:100%;
+  padding:14px 16px;
+  border:1.5px solid #787A91;
+  border-radius:12px;
+  font-family:Inter,sans-serif;
+  font-size:15px;
+  color:#141E61;
+  background:#EEEEEE;
+  transition:border-color .2s ease, box-shadow .2s ease;
+}
+input::placeholder,textarea::placeholder{color:#141E61;opacity:.5}
+input:focus,textarea:focus{
+  outline:none;
+  border-color:#141E61;
+  box-shadow:0 0 0 3px rgba(20,30,97,.15);
+}
+textarea{
+  min-height:58px;
+  resize:vertical;
+  line-height:1.5;
+}
+
+/* ===== Date field with calendar icon ===== */
+
+/* ===== Date field with calendar icon ===== */
+.date-field{
   position:relative;
   max-width:220px;
 }
@@ -68,6 +254,267 @@ h2{margin-top:0}
   margin:0;
   opacity:0;
   cursor:pointer;
-}</pre>
+}
+
+  
+/* .date-field{position:relative;max-width:220px}
+.date-field input[type="date"]{
+  padding-left:42px;
+  cursor:pointer;
+  color-scheme:light;
+}
+.date-field::before{
+  content:"";
+  position:absolute;
+  left:14px;top:50%;
+  transform:translateY(-50%);
+  width:18px;height:18px;
+  background:#141E61;
+  -webkit-mask:url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>') center/contain no-repeat;
+  mask:url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>') center/contain no-repeat;
+  pointer-events:none;
+  z-index:1;
+}
+.date-field input[type="date"]::-webkit-calendar-picker-indicator{
+  position:absolute;
+  left:0;top:0;
+  width:100%;height:100%;
+  margin:0;padding:0;
+  opacity:0;
+  cursor:pointer;
+} */
+
+.item,.reflection{border:1px solid #787A91;border-radius:12px;padding:14px 16px;margin-top:12px}
+.item{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
+.reflection{display:flex;flex-direction:column}
+.actions{display:flex;gap:8px;flex-shrink:0}
+.icon{background:none;color:#141E61;padding:6px;font-size:16px;border-radius:8px}
+.icon:hover{background:#EEEEEE}
+.del{color:#7a1f1f}
+.del:hover{background:#f2e2d2}
+
+.pillars{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  gap:14px;
+}
+
+.pillar{
+  border:1px solid #787A91;
+  border-radius:12px;
+  padding:16px;
+  display:flex;
+  align-items:center;
+  gap:10px;
+  background:#EEEEEE;
+  font-size:15.5px;
+}
+
+.bullet{
+  color:#141E61;
+  font-size:22px;
+  font-weight:bold;
+  line-height:1;
+}
+.chapel{text-align:center;border:1px solid #787A91;border-radius:16px;padding:36px 24px}
+.enter{display:inline-block;background:#141E61;color:#EEEEEE;text-decoration:none;padding:14px 28px;border-radius:10px;margin-top:16px;font-weight:600}
+.enter:hover{background:#0F044C}
+footer{text-align:center;padding:24px;color:#141E61;opacity:.75;margin-top:60px;font-size:14px}
+
+/* ===== Responsive breakpoints ===== */
+@media(max-width:768px){
+  .container{padding:32px 16px}
+  .section{margin-top:42px}
+  .section-title{font-size:25px}
+  .grid{grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px}
+  .content{padding:14px}
+  .content h3{font-size:16px}
+  .count{font-size:32px;margin:8px 0}
+  .chapel{padding:28px 18px}
+  .row{flex-direction:column}
+  .row > div, .row > input, .row > button{width:100%}
+  .date-field{max-width:none}
+}
+
+@media(max-width:480px){
+  h1{font-size:38px}
+  .logo-wrap{width:120px;height:120px}
+  header{padding:48px 16px 40px}
+  .grid{grid-template-columns:repeat(2,1fr);gap:12px}
+  .content{padding:12px}
+  .count{font-size:26px}
+  button{padding:10px 14px;font-size:14px}
+  .pillars{grid-template-columns:1fr}
+  .item{padding:12px}
+}
+</style>
+</head>
+<body>
+<header>
+  <div class="header-inner">
+    <div class="logo-wrap"><img src="./images/logo.png" class="logo"></div>
+    <span class="eyebrow">Prayer Community</span>
+    <h1>Jehovah Jireh</h1>
+    <div class="divider"></div>
+    <p class="subtitle">"The Lord is my shepherd, I shall not want."</p>
+    <p class="psalm">Psalm 23:1</p>
+  </div>
+</header>
+<div class="container">
+<section><h2 class="section-title">My Prayer Journey</h2><p class="section-sub">Offer your prayers in unity with our community.</p><div class="grid" id="cards"></div></section>
+<section class="section"><h2 class="section-title">Prayer Intentions</h2><p class="section-sub">Share your intentions and pray for one another.</p><div class="row"><div style="flex:1"><input id="intentionInput" placeholder="Enter prayer intention"></div><button onclick="saveIntention()">Add</button></div><div id="intentions"></div></section>
+<section class="section"><h2 class="section-title">Prayer Reflections</h2><p class="section-sub">Publish a daily reflection.</p><div class="row" style="margin-bottom:12px;"><div class="date-field"><input id="rDate" type="date" required></div></div><div class="row" style="margin-bottom:12px;"><div style="flex:1"><textarea id="rText" rows="1" placeholder="Write today's reflection..."></textarea></div></div><div class="row"><button onclick="saveReflection()">Publish</button></div><div id="reflections"></div></section>
+<section class="section"><h2 class="section-title">The Six Spiritual Pillars</h2><div class="pillars"><div class="pillar"><div class="bullet">•</div>Prayer</div><div class="pillar"><div class="bullet">•</div>Word of God</div><div class="pillar"><div class="bullet">•</div>Sacraments</div><div class="pillar"><div class="bullet">•</div>Fellowship</div><div class="pillar"><div class="bullet">•</div>Evangelisation</div><div class="pillar"><div class="bullet">•</div>Option for the Poor</div></div></section>
+<section class="section"><div class="chapel"><h2>Step into the Digital Chapel</h2><p class="section-sub">Silence • Prayer • Scripture • Reflection</p><a class="enter" href="./chapel.html">Visit Chapel</a></div></section>
+</div><footer>Jehovah Jireh • United in Prayer • Growing in Christ</footer>
+<script>
+  const client = authClient;
+const prayers=[["holy_mass","Holy Mass","mass.jpg"],["rosary","Rosary","rosary.jpg"],["divine_mercy","Divine Mercy","divine.jpg"],["hail_mary","Hail Mary","mary.jpg"],["our_father","Our Father","trinity.jpg"],["apostles_creed","Apostles' Creed","pentecost.jpg"],["adoration","Adoration","adoration.jpg"]];
+const grid=document.getElementById("cards");
+prayers.forEach(([k,t,i])=>grid.innerHTML+=`<div class="card"><img src="./images/${i}"><div class="content"><h3>${t}</h3><div id="${k}" class="count">0</div><button class="full" onclick="increment('${k}')">Add</button></div></div>`);
+
+async function loadCounts() {
+  const { data, error } = await client
+    .from("prayer_counts")
+    .select("*")
+    .eq("id", 1)
+    .maybeSingle();
+
+  if (error) {
+    console.error("Error loading prayer counts:", error);
+    return;
+  }
+
+  if (!data) {
+    console.error("No prayer_counts row found for id = 1.");
+    return;
+  }
+
+  for (const k in data) {
+    const e = document.getElementById(k);
+
+    if (e) {
+      e.textContent = data[k];
+    }
+  }
+}
+
+
+async function increment(c) {
+
+  const { data, error } = await client
+    .from("prayer_counts")
+    .select(c)
+    .eq("id", 1)
+    .maybeSingle();
+
+  if (error) {
+    console.error("Error reading prayer count:", error);
+    return;
+  }
+
+  if (!data) {
+    console.error("No prayer_counts row found for id = 1.");
+    return;
+  }
+
+  const newCount = Number(data[c] || 0) + 1;
+
+  const { error: updateError } = await client
+    .from("prayer_counts")
+    .update({
+      [c]: newCount
+    })
+    .eq("id", 1);
+
+  if (updateError) {
+    console.error("Error updating prayer count:", updateError);
+    return;
+  }
+
+  const element = document.getElementById(c);
+
+  if (element) {
+    element.textContent = newCount;
+  }
+}
+
+
+
+  
+let editI=null;
+async function loadIntentions(){const{data}=await client.from("prayer_intentions").select("*").order("created_at",{ascending:false});const box=document.getElementById("intentions");box.innerHTML="";(data||[]).forEach(r=>box.innerHTML+=`<div class=item><span>${r.intention}</span><div class=actions><button class=icon onclick="editIntention(${r.id},'${r.intention.replace(/'/g,"\\'")}')">✏️</button><button class="icon del" onclick="deleteIntention(${r.id})">🗑️</button></div></div>`);}
+function editIntention(id,t){editI=id;document.getElementById("intentionInput").value=t;}
+async function saveIntention(){const t=document.getElementById("intentionInput").value.trim();if(!t)return;if(editI){await client.from("prayer_intentions").update({intention:t}).eq("id",editI);editI=null;}else await client.from("prayer_intentions").insert({intention:t});document.getElementById("intentionInput").value="";loadIntentions();}
+async function deleteIntention(id){await client.from("prayer_intentions").delete().eq("id",id);loadIntentions();}
+let editR=null;
+async function loadReflections(){
+  const {data} = await client
+    .from("reflections")
+    .select("*")
+    .order("reflection_date",{ascending:false});
+
+  const box = document.getElementById("reflections");
+  box.innerHTML = "";
+
+  (data || []).forEach(r => {
+    const [year, month, day] = r.reflection_date.split("-");
+    const formattedDate = `${day}-${month}-${year}`;
+
+    box.innerHTML += `
+      <div class="reflection">
+        <div style="color:#141E61;font-weight:600">${formattedDate}</div>
+        <p>${r.reflection}</p>
+        <div class="actions">
+          <button class="icon" onclick="editReflection(${r.id},'${r.reflection_date}','${r.reflection.replace(/'/g,"\\'")}')">✏️</button>
+          <button class="icon del" onclick="deleteReflection(${r.id})">🗑️</button>
+        </div>
+      </div>`;
+  });
+}
+
+function editReflection(id,d,t){
+  editR=id;
+  document.getElementById("rDate").value=d;
+  document.getElementById("rText").value=t;
+}
+
+async function saveReflection(){
+  const d=document.getElementById("rDate").value;
+  const t=document.getElementById("rText").value.trim();
+
+  if(!d||!t)return;
+
+  if(editR){
+    await client
+      .from("reflections")
+      .update({reflection:t,reflection_date:d})
+      .eq("id",editR);
+
+    editR=null;
+  }else{
+    await client
+      .from("reflections")
+      .insert({reflection:t,reflection_date:d});
+  }
+
+  document.getElementById("rDate").value="";
+  document.getElementById("rText").value="";
+  loadReflections();
+}
+
+async function deleteReflection(id){
+  await client
+    .from("reflections")
+    .delete()
+    .eq("id",id);
+
+  loadReflections();
+}
+
+loadCounts();
+loadIntentions();
+loadReflections();
+</script>
 </body>
 </html>
