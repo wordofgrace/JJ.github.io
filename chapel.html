@@ -68,7 +68,7 @@ let editId=null;
 async function loadFriends(){const{data,error}=await client.from("fellowship").select("*").order("created_at",{ascending:false});const box=document.getElementById("friends");if(error){console.error(error);box.innerHTML="";return}box.innerHTML="";(data||[]).forEach(f=>{const safeName=String(f.name).replace(/'/g,"\\'");box.innerHTML+=`<div class="item"><span>${f.name}</span><div class="actions"><button onclick="editFriend(${f.id},'${safeName}')">✏️</button><button class="del" onclick="deleteFriend(${f.id})">🗑️</button></div></div>`})}
 async function saveFriend(){const i=document.getElementById("nameInput"),n=i.value.trim();if(!n)return;if(editId){await client.from("fellowship").update({name:n}).eq("id",editId);editId=null}else await client.from("fellowship").insert({name:n});i.value="";loadFriends()}
 function editFriend(id,n){editId=id;document.getElementById("nameInput").value=n;document.getElementById("nameInput").focus()}
-async function deleteFriend(id){if(!confirm("Delete friend?"))return;await client.from("fellowship").delete().eq("id",id);loadFriends()}
+async function deleteFriend(id){await client.from("fellowship").delete().eq("id",id);loadFriends()}
 loadFriends();
 </script>
 </body>
