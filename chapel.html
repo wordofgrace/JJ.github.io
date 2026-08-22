@@ -11,11 +11,10 @@
 *{margin:0;padding:0;box-sizing:border-box;font-family:Inter,sans-serif}
 html{-webkit-text-size-adjust:100%;}
 body{background:#EEEEEE;color:#141E61;overflow-x:hidden}
-header{position:relative;padding:22px 24px;border-bottom:1px solid #787A91;display:flex;justify-content:space-between;align-items:center;background:#EEEEEE}
+header{position:relative;padding:22px 24px;border-bottom:1px solid #787A91;display:flex;justify-content:center;align-items:center;background:#EEEEEE}
 header::before{content:"";position:absolute;top:0;left:0;right:0;height:4px;background:linear-gradient(90deg,#141E61,#787A91,#141E61)}
-.back{display:inline-flex;align-items:center;gap:8px;color:#141E61;text-decoration:none;font-weight:600;font-size:14.5px;padding:9px 16px 9px 12px;border:1.5px solid #141E61;background:#EEEEEE;border-radius:999px}
-.back svg{width:18px;height:18px;flex-shrink:0}.page-title{font-family:Calibri,'Trebuchet MS',sans-serif;color:#141E61;font-size:41px;font-weight:700;text-align:center;flex:1}.header-spacer{width:96px}
-.container{max-width:900px;margin:auto;padding:40px 20px 60px}
+.page-title{font-family:Calibri,'Trebuchet MS',sans-serif;color:#141E61;font-size:41px;font-weight:700;text-align:center}
+.container{max-width:900px;margin:auto;padding:40px 20px 100px}
 .card{border:1px solid #787A91;border-radius:16px;padding:26px;margin-bottom:22px;background:#EEEEEE}
 .card h2{color:#141E61;font-size:20px;margin-bottom:10px;display:flex;align-items:center;gap:8px}.card p{color:#141E61;line-height:1.6;margin-bottom:16px}
 .confession-card{overflow:hidden}.confession-card h3{margin:26px 0 12px;color:#141E61;font-size:18px;line-height:1.5}.confession-card h3:first-of-type{margin-top:8px}
@@ -28,14 +27,16 @@ a.btn:hover,button:hover{background:#0F044C}button:active,a.btn:active{transform
 input{width:100%;padding:13px 15px;border:1.5px solid #787A91;border-radius:10px;font-family:Inter,sans-serif;font-size:15px;color:#141E61;background:#EEEEEE}input::placeholder{color:#141E61;opacity:.5}input:focus{outline:none;border-color:#141E61;box-shadow:0 0 0 3px rgba(20,30,97,.15)}
 ol{padding-left:22px;color:#141E61;line-height:1.9}ol li{padding-left:4px}
 .item{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;border-top:1px solid #D8D8D8;padding:13px 0}.actions{display:flex;gap:6px;flex-shrink:0}.actions button{background:none;color:#141E61;padding:6px;border-radius:8px;font-size:15px}.actions button:hover{background:#E2E2E2}.del{color:#7a1f1f!important}.del:hover{background:#f2e2d2!important}.add-row{display:flex;gap:10px;flex-wrap:wrap}.add-row>div{flex:1;min-width:180px}
-@media(max-width:640px){header{padding:16px 14px}.back{font-size:0;padding:10px;gap:0}.back svg{width:19px;height:19px}.page-title{font-size:20px;line-height:1.2}.header-spacer{width:38px}.container{padding:22px 12px 40px}.card{padding:18px 16px;border-radius:14px;margin-bottom:18px}.card h2{font-size:18px;line-height:1.4}.card p{line-height:1.65}.confession-card h3{font-size:17px;line-height:1.5;margin-top:22px;margin-bottom:10px}.confession-card ol{padding-left:21px;line-height:1.7}.confession-card ol li{padding-left:4px;margin-bottom:8px}.prayer-text{font-size:15px;line-height:1.8;text-align:left}.prayer-text p{margin-bottom:14px}.prayer-text .emphasis{margin:16px 0;line-height:1.7}.add-row{flex-direction:column}.add-row>div{min-width:0;width:100%}.add-row button{width:100%}}
+.back{display:inline-flex;align-items:center;gap:8px;color:#141E61;text-decoration:none;font-weight:600;font-size:14.5px;padding:9px 16px 9px 12px;border:1.5px solid #141E61;background:#EEEEEE;border-radius:999px}
+.back svg{width:18px;height:18px;flex-shrink:0}
+.back-bottom{position:fixed;bottom:22px;left:50%;transform:translateX(-50%);z-index:100;box-shadow:0 4px 14px rgba(20,30,97,.25)}
+@media(max-width:640px){header{padding:16px 14px}.page-title{font-size:20px;line-height:1.2}.container{padding:22px 12px 80px}.card{padding:18px 16px;border-radius:14px;margin-bottom:18px}.card h2{font-size:18px;line-height:1.4}.card p{line-height:1.65}.confession-card h3{font-size:17px;line-height:1.5;margin-top:22px;margin-bottom:10px}.confession-card ol{padding-left:21px;line-height:1.7}.confession-card ol li{padding-left:4px;margin-bottom:8px}.prayer-text{font-size:15px;line-height:1.8;text-align:left}.prayer-text p{margin-bottom:14px}.prayer-text .emphasis{margin:16px 0;line-height:1.7}.add-row{flex-direction:column}.add-row>div{min-width:0;width:100%}.add-row button{width:100%}}
 @media(max-width:400px){.page-title{font-size:17px}.container{padding-left:10px;padding-right:10px}.card{padding:16px 14px}.confession-card h2{font-size:17px}.confession-card h3{font-size:16px}.prayer-text{font-size:14px;line-height:1.75}.confession-card ol{font-size:14px;line-height:1.65}}
 </style>
 </head>
 <body>
 <header>
-<a href="index.html" class="back" aria-label="Back to home"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11.5 12 4l9 7.5"/><path d="M5.5 10v9a1 1 0 0 0 1 1H10v-6h4v6h3.5a1 1 0 0 0 1-1v-9"/></svg><span>Home</span></a>
-<h1 class="page-title">Digital Chapel</h1><div class="header-spacer"></div>
+<h1 class="page-title">Digital Chapel</h1>
 </header>
 <div class="container">
 <div class="card"><h2>🙏 Eucharistic Adoration</h2><p>"I am with you always, even unto the end of the world." — Matthew 28:20</p><a class="btn" href="https://www.youtube.com/live/qz8YE61BoXM?si=_36lYdH_MLmsJLug" target="_blank" rel="noopener">Adoration</a></div>
@@ -60,6 +61,7 @@ ol{padding-left:22px;color:#141E61;line-height:1.9}ol li{padding-left:4px}
 </div></div>
 <div class="card"><h2>🤝 Fellowship</h2><p>Add friends to pray together.</p><div class="add-row"><div><input id="nameInput" placeholder="Add name"></div><button onclick="saveFriend()">Add</button></div><div id="friends" style="margin-top:12px"></div></div>
 </div>
+<a href="index.html" class="back back-bottom" aria-label="Back to home"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11.5 12 4l9 7.5"/><path d="M5.5 10v9a1 1 0 0 0 1 1H10v-6h4v6h3.5a1 1 0 0 0 1-1v-9"/></svg><span>Home</span></a>
 <script>
 const client=supabase.createClient("https://dmvztbtquvhugyctipok.supabase.co","sb_publishable_bw1rR4KOVLtEEs0xrBoMZg_u3ssTmOV");
 let editId=null;
